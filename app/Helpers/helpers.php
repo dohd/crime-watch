@@ -181,14 +181,21 @@ function generateProductSku($sku_prefix,$string)
 
 function dorDateFormat($date)
 {
-   
     return date('l, F j,Y',strtotime($date . "+1 days"));
 }
 
 
 function monthFormat($date = '', $local = false)
 {
-   
     return date('m-Y', strtotime($date));
+}
+
+if (!function_exists('browserLog')) {
+    function browserLog(...$args) 
+    {
+        foreach ($args as $key => $value) {
+            echo '<script> console.log('. json_encode($value) .')</script>';
+        }
+    }
 }
 
