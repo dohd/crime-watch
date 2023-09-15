@@ -34,8 +34,8 @@
                         </div>
                         <div class="col-xl-3 col-md-6 col-12">
                             <div class="mb-1">
-                                <label class="form-label" for="disabledInput">Fetal </label>
-                                {!! Form::text('mob_fetal',$mob_fetal,['placeholder' => 'Enter Fetal', 'class'=>'  form-control','id'=> 'mob_fetal']) !!}
+                                <label class="form-label" for="disabledInput">Offense </label>
+                                {!! Form::text('offense', @$offence,['placeholder' => 'Enter Offense', 'class'=>'  form-control','id'=> 'offense']) !!}
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6 col-12">

@@ -11,10 +11,10 @@
                             <div class="mb-1">
                                 <label class="form-label">POACHING</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::text('elephant',null,['placeholder' => 'ELEPHANTS', 'class'=>'  form-control','id'=> 'elephant']) !!}
-                                    {!! Form::text('rhino',null,['placeholder' => 'RHINO', 'class'=>'  form-control','id'=> 'rhino']) !!}
-                                    {!! Form::text('giraffe',null,['placeholder' => 'GIRAFFE', 'class'=>'  form-control','id'=> 'giraffe']) !!}
-
+                                    {!! Form::number('elephant',null,['placeholder' => 'ELEPHANTS', 'class'=>'  form-control','id'=> 'elephant']) !!}
+                                    {!! Form::number('rhino',null,['placeholder' => 'RHINO', 'class'=>'  form-control','id'=> 'rhino']) !!}
+                                    {!! Form::number('giraffe',null,['placeholder' => 'GIRAFFE', 'class'=>'  form-control','id'=> 'giraffe']) !!}
+                                    {!! Form::number('other',null,['placeholder' => 'OTHER', 'class'=>'  form-control','id'=> 'other']) !!}
                                 </div>
                             </div>
                         </div>
@@ -22,20 +22,15 @@
                             <div class="mb-1">
                                 <label class="form-label">HUMAN-WILDLIFE CONFLICT</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::text('injured',null,['placeholder' => 'INJURED', 'class'=>'  form-control','id'=> 'injured']) !!}
-                                    {!! Form::text('fetal',null,['placeholder' => 'FATALS', 'class'=>'  form-control','id'=> 'fetal']) !!}
-
+                                    {!! Form::number('injured',null,['placeholder' => 'INJURED', 'class'=>'  form-control','id'=> 'injured']) !!}
+                                    {!! Form::number('fatal',null,['placeholder' => 'FATALS', 'class'=>'  form-control','id'=> 'fatal']) !!}
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                        
-                   
-                   
                     </div>
                 </div>
             </div>
         </div>
-    
+    </div>    
 </section>

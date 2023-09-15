@@ -65,61 +65,31 @@
             $gangfirearm = 1;
         }
         switch ($incidentrecord->special_check) {
-            case 'gambling':
-                $gambling = 1;
-                break;
-            case 'mob_injustice':
-                $mob_injustice = 1;
-                break;
-            case 'money_matters':
-                $money_matters = 1;
-                break;
-            case 'arrest_of_foreigners':
-                $arrest_of_foreigners = 1;
-                break;
-            case 'criminal_gang':
-                $criminal_gang = 1;
-                break;
-            case 'police_officers':
-                $police_officers = 1;
-                break;
-            case 'school':
-                $school = 1;
-                break;
-            case 'illicitbrew':
-                $illicitbrew = 1;
-                break;
-            case 'terrorism':
-                $terrorism = 1;
-                break;
-            case 'boarder':
-                $boarder = 1;
-                break;
-            case 'contraband':
-                $contraband = 1;
-                break;
-            case 'cattle_rustling':
-                $cattle_rustling = 1;
-                break;
-            case 'ethnic_clashes':
-                $ethnic_clashes = 1;
-                break;
-            case 'stock_theft':
-                $stock_theft = 1;
-                break;
-            case 'alien':
-                $alien = 1;
-                break;
+            case 'gambling': $gambling = 1; break;
+            case 'mob_injustice': $mob_injustice = 1; break;
+            case 'money_matters': $money_matters = 1; break;
+            case 'arrest_of_foreigners': $arrest_of_foreigners = 1; break;
+            case 'criminal_gang': $criminal_gang = 1; break;
+            case 'police_officers': $police_officers = 1; break;
+            case 'school': $school = 1; break;
+            case 'illicitbrew': $illicitbrew = 1; break;
+            case 'terrorism': $terrorism = 1; break;
+            case 'boarder': $boarder = 1; break;
+            case 'contraband': $contraband = 1; break;
+            case 'cattle_rustling': $cattle_rustling = 1; break;
+            case 'ethnic_clashes': $ethnic_clashes = 1; break;
+            case 'stock_theft': $stock_theft = 1; break;
+            case 'kidnapping': $kidnapping = 1; break;
+            case 'wildlife': $wildlife = 1; break;
+            case 'firearm': $firearm = 1; break;
         }
     }
 @endphp
-{!! Form::hidden('crime_category_id', $crime_category_id, [
-    'class' => '  form-control',
-    'id' => 'crime_category_id',
-]) !!}
-{!! Form::hidden('region_id', $region_id, ['class' => '  form-control', 'id' => 'region_id']) !!}
-{!! Form::hidden('county_id', $county_id, ['class' => '  form-control', 'id' => 'county_id']) !!}
-{!! Form::hidden('division_id', $division_id, ['class' => '  form-control', 'id' => 'division_id']) !!}
+{!! Form::hidden('crime_category_id', $crime_category_id, ['class' => 'form-control', 'id' => 'crime_category_id']) !!}
+{!! Form::hidden('region_id', $region_id, ['class' => 'form-control', 'id' => 'region_id']) !!}
+{!! Form::hidden('county_id', $county_id, ['class' => 'form-control', 'id' => 'county_id']) !!}
+{!! Form::hidden('division_id', $division_id, ['class' => 'form-control', 'id' => 'division_id']) !!}
+
 <section id="basic-input">
     <div class="row">
         <div class="col-md-12">
@@ -153,8 +123,6 @@
                                 'id' => 'date_captured',
                             ]) !!}
                         </div>
-
-
                         <div class="col-xl-2 col-md-6 col-12">
                             <div class="mb-1">
                                 <label class="form-label" for="basicInput">Incident No</label>
@@ -351,6 +319,8 @@
         </div>
     </div>
 </section>
+
+<!----- Full editor ------>
 <section class="full-editor">
     <div class="row">
         <div class="col-12">
@@ -376,7 +346,9 @@
         </div>
     </div>
 </section>
-<!-----Breefing Report report--->
+<!----- End Full editor ------>
+
+<!-----Briefing Report report--->
 <section id="floating-label-input-new" class="{{ $breifing_report_hide }} breifing_report">
     <div class="row">
         <div class="col-md-12">
@@ -389,7 +361,7 @@
                         <div class="demo-inline-spacing">
                             <div class="col-xl-4 nNnncNnol-md-6 col-12">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('addincident', 'addincident', $addincident, [
+                                    {!! Form::checkbox('addincident', 'addincident', @$addincident, [
                                         'class' => 'form-check-input',
                                         'id' => 'addincident',
                                     ]) !!}
@@ -399,7 +371,7 @@
                             </div>
                             <div class="col-xl-4 nNnncNnol-md-6 col-12">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('gangfirearm', 'gangfirearm', $gangfirearm, [
+                                    {!! Form::checkbox('gangfirearm', 'gangfirearm', @$gangfirearm, [
                                         'class' => 'form-check-input',
                                         'id' => 'gangfirearm',
                                     ]) !!}
@@ -413,6 +385,8 @@
         </div>
     </div>
 </section>
+<!-----End Briefing Report report--->
+
 <!-----Special report--->
 <section id="floating-label-input " class="{{ $special_report_hide }} special_report">
     <div class="row">
@@ -424,9 +398,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="demo-inline-spacing">
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'gambling', $gambling, [
+                                    {!! Form::checkbox('special_check', 'gambling', @$gambling, [
                                         'class' => ' checkbox form-check-input',
                                         'id' => 'gambling',
                                         'data-target' => 'gambling-input',
@@ -434,9 +408,9 @@
                                     <label class="form-check-label" for="gambling">Gambling</label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'mob_injustice', $mob_injustice, [
+                                    {!! Form::checkbox('special_check', 'mob_injustice', @$mob_injustice, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'mob_injustice',
                                         'data-target' => 'mobinjustice-input',
@@ -444,9 +418,9 @@
                                     <label class="form-check-label" for="mob_injustice">Mob Injustice</label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'money_matters', $money_matters, [
+                                    {!! Form::checkbox('special_check', 'money_matters', @$money_matters, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'money_matters',
                                         'data-target' => 'moneymatters-input',
@@ -454,9 +428,9 @@
                                     <label class="form-check-label" for="money_matters">Money Matters</label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'arrest_of_foreigners', $arrest_of_foreigners, [
+                                    {!! Form::checkbox('special_check', 'arrest_of_foreigners', @$arrest_of_foreigners, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'arrest_of_foreigners',
                                         'data-target' => 'arrestoffeoreigners-input',
@@ -465,9 +439,9 @@
                                         of Foreigners</label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'criminal_gang', $criminal_gang, [
+                                    {!! Form::checkbox('special_check', 'criminal_gang', @$criminal_gang, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'criminal_gang',
                                         'data-target' => 'criminalgang-input',
@@ -476,13 +450,23 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-md-2 nNnncNnol-md-6 col-12 me-0">
+                                <div class="form-check form-check-inline">
+                                    {!! Form::checkbox('special_check', 'kidnapping', @$kidnapping, [
+                                        'class' => 'checkbox form-check-input',
+                                        'id' => 'kidnapping',
+                                        'data-target' => 'kidnapping-input',
+                                    ]) !!}
+                                    <label class="form-check-label" for="kidnapping"> Kidnapping</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="demo-inline-spacing">
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'police_officers', $police_officers, [
+                                    {!! Form::checkbox('special_check', 'police_officers', @$police_officers, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'police_officers',
                                         'data-target' => 'policeofficers-input',
@@ -491,9 +475,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'school', $school, [
+                                    {!! Form::checkbox('special_check', 'school', @$school, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'school',
                                         'data-target' => 'school-input',
@@ -502,9 +486,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'illicitbrew', $illicitbrew, [
+                                    {!! Form::checkbox('special_check', 'illicitbrew', @$illicitbrew, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'illicitbrew',
                                         'data-target' => 'illicitbrew-input',
@@ -513,9 +497,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'terrorism', $terrorism, [
+                                    {!! Form::checkbox('special_check', 'terrorism', @$terrorism, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'terrorism',
                                         'data-target' => 'terrorism-input',
@@ -524,9 +508,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'boarder', $boarder, [
+                                    {!! Form::checkbox('special_check', 'boarder', @$boarder, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'boarder',
                                         'data-target' => 'boarder-input',
@@ -535,13 +519,24 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
+                                <div class="form-check form-check-inline">
+                                    {!! Form::checkbox('special_check', 'wildlife', @$wildlife, [
+                                        'class' => 'checkbox form-check-input',
+                                        'id' => 'wildlife',
+                                        'data-target' => 'wildlife-input',
+                                    ]) !!}
+                                    <label class="form-check-label" for="wildlife">Wildlife
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row pt-1">
                         <div class="demo-inline-spacing">
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'contraband', $contraband, [
+                                    {!! Form::checkbox('special_check', 'contraband', @$contraband, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'contraband',
                                         'data-target' => 'contraband-input',
@@ -550,20 +545,20 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'cattle_rustling', $cattle_rustling, [
+                                    {!! Form::checkbox('special_check', 'cattle_rustling', @$cattle_rustling, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'cattle_rustling',
                                         'data-target' => 'cattlerustling-input',
                                     ]) !!}
-                                    <label class="form-check-label" for="cattle_rustling">Cattle Russtling
+                                    <label class="form-check-label" for="cattle_rustling">Cattle Rustling
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'ethnic_clashes', $ethnic_clashes, [
+                                    {!! Form::checkbox('special_check', 'ethnic_clashes', @$ethnic_clashes, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'ethnic_clashes',
                                         'data-target' => 'ethnicclashes-input',
@@ -572,9 +567,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'stock_theft', $stock_theft, [
+                                    {!! Form::checkbox('special_check', 'stock_theft', @$stock_theft, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'stock_theft',
                                         'data-target' => 'stocktheft-input',
@@ -583,14 +578,24 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-xl-2 nNnncNnol-md-6 col-12">
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
                                 <div class="form-check form-check-inline">
-                                    {!! Form::checkbox('special_check', 'alien', $alien, [
+                                    {!! Form::checkbox('special_check', 'alien', @$alien, [
                                         'class' => 'checkbox form-check-input',
                                         'id' => 'alien',
                                         'data-target' => 'alien-input',
                                     ]) !!}
                                     <label class="form-check-label" for="alien">Alien</label>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
+                                <div class="form-check form-check-inline">
+                                    {!! Form::checkbox('special_check', 'firearm', @$firearm, [
+                                        'class' => 'checkbox form-check-input',
+                                        'id' => 'firearm',
+                                        'data-target' => 'firearm-container',
+                                    ]) !!}
+                                    <label class="form-check-label" for="firearm">Firearm</label>
                                 </div>
                             </div>
                         </div>
@@ -600,8 +605,9 @@
         </div>
     </div>
 </section>
-<!-- Basic Inputs end -->
-<!-- Addincidence Sizing start -->
+<!----- End Special report--->
+
+<!-- Addincidence Sizing -->
 @include('incidences.sections.addincident')
 <!-- Addincidence  end -->
 <!-- Gangfirearm Sizing start -->
@@ -652,5 +658,18 @@
 <!-- Stock Theft Clashes -->
 @include('incidences.sections.stocktheft')
 <!-- Stock Theft end -->
-<!-- Alians  -->
+<!-- Aliens  -->
 @include('incidences.sections.alien')
+<!-- End Aliens  -->
+<!-- Gambling Sizing start -->
+@include('incidences.sections.wildlife')
+<!-- Gambling  end -->
+
+<!-- Firearm start -->
+<div id="firearm-container">
+    @include('incidences.sections.firearm')
+    @include('incidences.sections.ammunition')
+    @include('incidences.sections.magazine_explosive')
+</div>
+<!-- Firearm  end -->
+

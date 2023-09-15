@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class IncidentContinue extends Model
 {
     use HasFactory,UUID;
+
+    protected $table = 'incident_continues';
+
     protected $fillable = [
         'uuid',
+        'incident_record_id',
         'place', 
         'mode_of_operandi',
         'as_name',
@@ -19,8 +23,10 @@ class IncidentContinue extends Model
         'ar_value',
         'ad_name', 
         'ad_value',
-        'incident_record_id',
-        
-      
+        'vic_injured',
+        'vic_dead',
+        'no_accused',
+        'weapon_used',
+        'weapon_recov'
     ];
 }

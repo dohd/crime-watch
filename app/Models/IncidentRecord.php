@@ -10,39 +10,46 @@ use Illuminate\Database\Eloquent\Model;
 
 class IncidentRecord extends Model
 {
-    use HasFactory,UUID;
+    use HasFactory, UUID;
+
+    protected $table = "incident_records";
+
     protected $fillable = [
         'uuid',
-        'report_type', 
+        'report_type',
         'incident_no',
         'incident_ref',
-        'charge_no', 
+        'charge_no',
         'incident_title',
         'date_commited',
-        'date_reported', 
+        'date_reported',
         'time_commited',
         'time_reported',
-        'case_position', 
+        'case_position',
         'date_captured',
         'motive',
         'description',
-        'description_copy', 
+        'description_copy',
         'addincident',
         'gangfirearm',
-        'special_check', 
+        'special_check',
         'crime_source_id',
         'has_copy',
-        'incident_file_id', 
+        'incident_file_id',
         'station_id',
         'region_id',
-        'county_id', 
+        'county_id',
         'division_id',
         'c_no_of_arrest',
-        'is_dcir'
-  
-       
-      
+        'is_dcir',
+        'firearm_magazine',
+        'firearm_explosive',
     ];
+
+
+    /**
+     * Relationships
+     */
     public function policeofficers()
     {
         return $this->hasMany(ArrestOfPoliceOfficerIncidence::class);
@@ -54,6 +61,14 @@ class IncidentRecord extends Model
     public function aliens()
     {
         return $this->hasMany(AlienIncidence::class);
+    }
+    public function firearms()
+    {
+        return $this->hasMany(IncidenceFirearm::class);
+    }
+    public function ammunitions()
+    {
+        return $this->hasMany(IncidenceAmmunition::class);
     }
     public function incidentFile()
     {
@@ -69,7 +84,7 @@ class IncidentRecord extends Model
     }
     public function idivision()
     {
-        return $this->belongsTo(Division::class,'division_id');
+        return $this->belongsTo(Division::class, 'division_id');
     }
     public function school()
     {
@@ -122,7 +137,7 @@ class IncidentRecord extends Model
     }
     public function gangFirearm()
     {
-        return $this->hasOne(GandFirearm::class);
+        return $this->hasOne(GangFirearm::class);
     }
     public function terrorism()
     {
@@ -134,8 +149,6 @@ class IncidentRecord extends Model
     }
     public function crimesource()
     {
-        return $this->belongsTo(CrimeSource::class,'crime_source_id');
+        return $this->belongsTo(CrimeSource::class, 'crime_source_id');
     }
-    
-    
 }

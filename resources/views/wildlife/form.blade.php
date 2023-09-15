@@ -32,6 +32,7 @@
                                     {!! Form::number('elephant',null,['placeholder' => 'ELEPHANTS', 'class'=>'  form-control','id'=> 'elephant']) !!}
                                     {!! Form::number('rhino',null,['placeholder' => 'RHINO', 'class'=>'  form-control','id'=> 'rhino']) !!}
                                     {!! Form::number('giraffe',null,['placeholder' => 'GIRAFFE', 'class'=>'  form-control','id'=> 'giraffe']) !!}
+                                    {!! Form::number('other',null,['placeholder' => 'OTHER', 'class'=>'  form-control','id'=> 'other']) !!}
                                 </div>
                             </div>
                         </div>

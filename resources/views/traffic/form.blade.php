@@ -50,7 +50,7 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                            <td>{!! Form::number('c_report_value[]', $val, [
+                                            <td>{!! Form::text('c_report_value[]', $val, [
                                                 'class' => 'data-input',
                                                 'id' => 'creportvalue' . $type->id . '_' . $category->id . '',
                                                 'style' => 'width:30px;',
@@ -220,7 +220,7 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                            <td>{!! Form::number('r_report_value[]', $tval, [
+                                            <td>{!! Form::text('r_report_value[]', $tval, [
                                                 'class' => 'data-input-r',
                                                 'id' => 'rreportvalue' . $region->id . '',
                                                 'style' => 'width:30px;',
@@ -289,12 +289,13 @@
                                     @endif
                                     <tr>
                                         <td>{{ $region->name }}</td>
-                                        <td>{!! Form::number('fine_value[]', $fval, [
+                                        <td>
+                                            {!! Form::text('fine_value[]', $fval, [
                                             'class' => 'data-input-f',
                                             'id' => 'ffinereportvalue' . $region->id . '',
                                             'style' => 'width:100px;',
                                         ]) !!}</td>
-                                        <td>{!! Form::number('forfeit_value[]', $frval, [
+                                        <td>{!! Form::text('forfeit_value[]', $frval, [
                                             'class' => 'data-input-f',
                                             'id' => 'fforfeitreportvalue' . $region->id . '',
                                             'style' => 'width:100px;',
