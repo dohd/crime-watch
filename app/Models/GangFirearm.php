@@ -6,9 +6,12 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GandFirearm extends Model
+class GangFirearm extends Model
 {
     use HasFactory,UUID;
+
+    protected $table = 'gang_firearms';
+
     protected $fillable = [
         'uuid',
         'total_no_of_gang', 
@@ -19,7 +22,5 @@ class GandFirearm extends Model
         'home_made',
         'other_weapons', 
         'incident_record_id',
-        
-      
     ];
 }
