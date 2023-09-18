@@ -208,7 +208,7 @@ $(function () {
               feather.icons['more-vertical'].toSvg({ class: 'font-small-4' }) +
               '</a>' +
               '<div class="dropdown-menu dropdown-menu-end">' +
-              '<a href="traffic/'+full['uuid']+'/edit"  class="dropdown-item">' +
+              '<a href="traffic/create"  class="dropdown-item">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) +
               'Edit</a>' +
               '<a href="javascript:;" data-href="traffic/'+full['uuid']+'" class="delete-incidence dropdown-item delete-record">' +
