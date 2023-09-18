@@ -429,8 +429,8 @@
                 // Update row totals
                 $('#dataTable tbody tr').each(function() {
                     var total = 0;
-                    $(this).find('.data-input').each(function() {
-                        total += parseInt($(this).val()) || 0;
+                    $(this).find('.data-input').each(function(i) {
+                        if (i > 1) total += parseInt($(this).val()) || 0;
                     });
                     $(this).find('.total').text(total);
                 });
