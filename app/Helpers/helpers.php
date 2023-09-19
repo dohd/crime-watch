@@ -191,11 +191,54 @@ function monthFormat($date = '', $local = false)
 }
 
 if (!function_exists('browserLog')) {
-    function browserLog(...$args) 
+    function browserLog(...$args)
     {
-        foreach ($args as $key => $value) {
-            echo '<script> console.log('. json_encode($value) .')</script>';
+        foreach ($args as $arg) {
+            echo '<script>console.log(' . json_encode($arg) . ')</script>';
         }
     }
 }
 
+if (!function_exists('printLog')) {
+    function printLog(...$args)
+    {
+        foreach ($args as $arg) {
+            error_log(print_r($arg, 1));
+        }
+    }
+}
+
+if (!function_exists('databaseArray')) {
+    function databaseArray($input=[])
+    {
+        $input_mod = [];
+        foreach ($input as $key => $value) {
+            foreach ($value as $j => $v) {
+                $input_mod[$j][$key] = $v;
+            }
+        }
+        return $input_mod;
+    }
+}
+
+if (!function_exists('fillArray')) {
+    function fillArray($main=[], $params=[])
+    {
+        foreach ($params as $key => $value) {
+            $main[$key] = $value;
+        }
+        return $main;
+    }
+}
+
+if (!function_exists('fillArrayRecurse')) {
+    function fillArrayRecurse($main=[], $params=[])
+    {
+        foreach ($main as $i => $row) {
+            foreach ($params as $key => $value) {
+                $main[$i][$key] = $value;
+            }
+        }
+        return $main;
+    }
+}
