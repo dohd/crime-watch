@@ -164,10 +164,6 @@
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
     <script>
-        // $('.add-new-incidence').submit(function(e) {
-        //     $('input,select').filter(function() { return $(this).val() == ""; }).prop('disabled', true);
-        //     $(this)[0].submit();
-        // });
         $(function() {
             var newUserForm = $('.add-new-incidence');
             var select = $('.select2');
@@ -297,6 +293,7 @@
                 });
             });
         });
+
         $(document).on('click', '.delete-county', function(e) {
             e.preventDefault();
             Swal.fire({
@@ -402,6 +399,7 @@
                 document.getElementById("editorContent").value = fullEditor.root.innerHTML;
             });
         })(window, document, jQuery);
+        
         // Change report Type
         $("#report_type").change(function() {
             if ($(this).val() == 'Briefing Report') {

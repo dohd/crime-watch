@@ -81,27 +81,24 @@
         <div class="content-body">
             <!-- Basic Inputs start -->
             {{ Form::model($incidentrecord, ['route' => ['dailyincidences.update', $incidentrecord], 'class' => 'validate-form  modal-content pt-0 add-new-incidence', 'role' => 'form', 'method' => 'PUT', 'id' => 'category_add_form6']) }}
-
-
-
-           @include('incidences.form')
-            <!-- Alians-->
-            <section>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <button type="button" id="spinner" class="btn btn-primary me-1">
-                                    <span class="spinner-border spinner-border-sm" role="status"
-                                        aria-hidden="true"></span>
-                                    <span class="ms-25 align-middle">Loading...</span></button>
-                                {{ Form::submit('Save changes', ['class' => 'btn btn-primary me-1 data-submit', 'id' => 'submit-data']) }}
-                                {{ Form::reset('Cancel', ['class' => 'btn btn-outline-secondary', 'data-bs-dismiss' => 'modal']) }}
+                @include('incidences.form')
+                <!-- Alians-->
+                <section>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <button type="button" id="spinner" class="btn btn-primary me-1">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span class="ms-25 align-middle">Loading...</span>
+                                    </button>
+                                    <button type="submit" id="submit-data" class="btn btn-primary me-1 data-submit">Save Changes</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>    
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
             {!! Form::close() !!}
         </div>
     </div>
@@ -165,10 +162,8 @@
         $(function() {
             ('use strict');
             var dtUserTable = $('.user-list-table'),
-                newUserSidebar = $('.new-county-modal'),
                 newUserForm = $('.add-new-incidence'),
                 select = $('.select2'),
-                dtContact = $('.dt-contact'),
                 assetPath = $('body').attr('data-asset-path');
             select.each(function() {
                 var $this = $(this);
@@ -181,191 +176,7 @@
                     dropdownParent: $this.parent()
                 });
             });
-            // Users List datatable
-            // Users List datatable
-            if (dtUserTable.length) {
-                dtUserTable.DataTable({
-                    ajax: "{{ route('county.index') }}", // JSON file to add data
-                    columns: [
-                        // columns according to JSON
-                        {
-                            data: 'region'
-                        },
-                        {
-                            data: 'name'
-                        },
-                        {
-                            data: 'code'
-                        },
-                        {
-                            data: ''
-                        }
-                    ],
-                    columnDefs: [{
-                        // Actions
-                        targets: -1,
-                        title: 'Actions',
-                        orderable: false,
-                        render: function(data, type, full, meta) {
-                            return (
-                                '<div class="btn-group">' +
-                                '<a class=" btn btn-sm dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
-                                feather.icons['more-vertical'].toSvg({
-                                    class: 'font-small-4'
-                                }) +
-                                '</a>' +
-                                '<div class="dropdown-menu dropdown-menu-end">' +
-                                '<a href="javascript:;" data-href="county/' + full['id'] +
-                                '/edit" class="edit-county dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Edit</a>' +
-                                '<a href="javascript:;" data-href="county/' + full['id'] +
-                                '" class="delete-county dropdown-item delete-record">' +
-                                feather.icons['trash-2'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Delete</a></div>' +
-                                '</div>' +
-                                '</div>'
-                            );
-                        }
-                    }],
-                    order: [
-                        [1, 'desc']
-                    ],
-                    dom: '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
-                        '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
-                        '<"col-sm-12 col-lg-8 ps-xl-75 ps-0"<"dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap"<"me-1"f>B>>' +
-                        '>t' +
-                        '<"d-flex justify-content-between mx-2 row mb-1"' +
-                        '<"col-sm-12 col-md-6"i>' +
-                        '<"col-sm-12 col-md-6"p>' +
-                        '>',
-                    language: {
-                        sLengthMenu: 'Show _MENU_',
-                        search: 'Search',
-                        searchPlaceholder: 'Search..'
-                    },
-                    // Buttons with Dropdown
-                    buttons: [{
-                            extend: 'collection',
-                            className: 'btn btn-outline-secondary dropdown-toggle me-2',
-                            text: feather.icons['external-link'].toSvg({
-                                class: 'font-small-4 me-50'
-                            }) + 'Export',
-                            buttons: [{
-                                    extend: 'print',
-                                    text: feather.icons['printer'].toSvg({
-                                        class: 'font-small-4 me-50'
-                                    }) + 'Print',
-                                    className: 'dropdown-item',
-                                    exportOptions: {
-                                        columns: [1, 2, 3, 4, 5]
-                                    }
-                                },
-                                {
-                                    extend: 'csv',
-                                    text: feather.icons['file-text'].toSvg({
-                                        class: 'font-small-4 me-50'
-                                    }) + 'Csv',
-                                    className: 'dropdown-item',
-                                    exportOptions: {
-                                        columns: [1, 2, 3, 4, 5]
-                                    }
-                                },
-                                {
-                                    extend: 'excel',
-                                    text: feather.icons['file'].toSvg({
-                                        class: 'font-small-4 me-50'
-                                    }) + 'Excel',
-                                    className: 'dropdown-item',
-                                    exportOptions: {
-                                        columns: [1, 2, 3, 4, 5]
-                                    }
-                                },
-                                {
-                                    extend: 'pdf',
-                                    text: feather.icons['clipboard'].toSvg({
-                                        class: 'font-small-4 me-50'
-                                    }) + 'Pdf',
-                                    className: 'dropdown-item',
-                                    exportOptions: {
-                                        columns: [1, 2, 3, 4, 5]
-                                    }
-                                },
-                                {
-                                    extend: 'copy',
-                                    text: feather.icons['copy'].toSvg({
-                                        class: 'font-small-4 me-50'
-                                    }) + 'Copy',
-                                    className: 'dropdown-item',
-                                    exportOptions: {
-                                        columns: [1, 2, 3, 4, 5]
-                                    }
-                                }
-                            ],
-                            init: function(api, node, config) {
-                                $(node).removeClass('btn-secondary');
-                                $(node).parent().removeClass('btn-group');
-                                setTimeout(function() {
-                                    $(node).closest('.dt-buttons').removeClass('btn-group')
-                                        .addClass('d-inline-flex mt-50');
-                                }, 50);
-                            }
-                        },
-                        {
-                            text: 'Add New County',
-                            className: 'add-new btn btn-primary',
-                            attr: {
-                                'data-bs-toggle': 'modal',
-                                'data-bs-target': '#modals-slide-in'
-                            },
-                            init: function(api, node, config) {
-                                $(node).removeClass('btn-secondary');
-                            }
-                        }
-                    ],
-                    language: {
-                        paginate: {
-                            // remove previous & next text from pagination
-                            previous: '&nbsp;',
-                            next: '&nbsp;'
-                        }
-                    },
-                    initComplete: function() {
-                        // Adding role filter once table initialized
-                        this.api()
-                            .columns(0)
-                            .every(function() {
-                                var column = this;
-                                var label = $(
-                                        '<label class="form-label" for="UserRole">Region</label>')
-                                    .appendTo('.user_role');
-                                var select = $(
-                                        '<select id="UserRole" class="form-select text-capitalize mb-md-0 mb-2"><option value=""> Select Region </option></select>'
-                                    )
-                                    .appendTo('.user_role')
-                                    .on('change', function() {
-                                        var val = $.fn.dataTable.util.escapeRegex($(this)
-                                            .val());
-                                        column.search(val ? '^' + val + '$' : '', true, false)
-                                            .draw();
-                                    });
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function(d, j) {
-                                        select.append('<option value="' + d +
-                                            '" class="text-capitalize">' + d + '</option>');
-                                    });
-                            });
-                        // Adding plan filter once table initialized
-                    }
-                });
-            }
+            
             $("#spinner").hide();
             // Form Validation
             if (newUserForm.length) {
@@ -378,12 +189,12 @@
                     }
                 });
                 newUserForm.on('submit', function(e) {
-                    // var editorContent = fullEditor.root.innerHTML;
-                    // document.getElementById('editorContent').value = editorContent;
-                    // console.log(editorContent);
                     var isValid = newUserForm.valid();
                     e.preventDefault();
                     if (isValid) {
+                        // filter out empty fields
+                        $('input,select').filter(function() { return $(this).val() == ''; }).prop('disabled', true);
+
                         var data = $(this).serialize();
                         $("#spinner").show();
                         $("#submit-data").hide();
@@ -425,20 +236,12 @@
                                 }
                             }
                         });
-                        newUserSidebar.modal('hide');
                     }
                 });
             }
-            // Phone Number
-            if (dtContact.length) {
-                dtContact.each(function() {
-                    new Cleave($(this), {
-                        phone: true,
-                        phoneRegionCode: 'US'
-                    });
-                });
-            }
+            
         });
+
         $(document).on('click', '.edit-county', function() {
             // alert($(this).data('href'));
             $('div.editCountyModal').load($(this).data('href'), function() {
@@ -596,6 +399,7 @@
                 document.getElementById("editorContent").value = fullEditor.root.innerHTML;
             });
         })(window, document, jQuery);
+
         $("#report_type").change(function() {
             // Chnage report Type
             if ($(this).val() == 'Briefing Report') {
@@ -780,6 +584,24 @@
                 $("#alien-input").hide();
             }
         });
+        $("#wildlife").change(function() {
+            if ($(this).is(":checked")) {
+                $("#wildlife-input").show();
+            } else {
+                $("#wildlife-input").hide();
+            }
+        });
+        $("#firearm").change(function() {
+            if ($(this).is(":checked")) {
+                $("#firearm-input").show();
+                $("#ammunition-input").show();
+                $("#magnexpl-input").show();
+            } else {
+                $("#firearm-input").hide();
+                $("#ammunition-input").hide();
+                $("#magnexpl-input").hide();
+            }
+        });
         $("#incident_file_id").change(function() {
             $.ajaxSetup({
                 headers: {
@@ -860,26 +682,21 @@
                 }
             });
         });
-
         function showAssociatedDiv(checkbox) {
             const targetDivId = checkbox.dataset.target;
             const targetDiv = document.getElementById(targetDivId);
-            if (targetDiv) {
-                targetDiv.style.display = 'block';
-            }
+            if (targetDiv) targetDiv.style.display = 'block';
         }
-
         function hideAssociatedDiv(checkbox) {
             const targetDivId = checkbox.dataset.target;
             const targetDiv = document.getElementById(targetDivId);
-            if (targetDiv) {
-                targetDiv.style.display = 'none';
-            }
+            if (targetDiv) targetDiv.style.display = 'none';
         }
+
         $("#date_captured").change(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
                 }
             });
             $.ajax({
@@ -890,9 +707,7 @@
                     date_captured: $(this).val(),
                 },
                 success: function(response) {
-                  
                     $('#incident_no').val(response);
-                  
                 }
             });
         });

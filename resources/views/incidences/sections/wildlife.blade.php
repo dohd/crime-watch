@@ -1,4 +1,7 @@
-<section id="wildlife-input" class="hide">
+<section id="wildlife-input" class="{{ $wildlife == 1 ? '' : 'hide' }}">
+    @php
+        $wildlife = @$incidentrecord->wildlife;
+    @endphp
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow-none bg-transparent border-primary">
@@ -11,10 +14,10 @@
                             <div class="mb-1">
                                 <label class="form-label">POACHING</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::number('elephant',null,['placeholder' => 'ELEPHANTS', 'class'=>'  form-control','id'=> 'elephant']) !!}
-                                    {!! Form::number('rhino',null,['placeholder' => 'RHINO', 'class'=>'  form-control','id'=> 'rhino']) !!}
-                                    {!! Form::number('giraffe',null,['placeholder' => 'GIRAFFE', 'class'=>'  form-control','id'=> 'giraffe']) !!}
-                                    {!! Form::number('other',null,['placeholder' => 'OTHER', 'class'=>'  form-control','id'=> 'other']) !!}
+                                    {!! Form::number('elephant',@$wildlife->elephant,['placeholder' => 'ELEPHANTS', 'class'=>'  form-control','id'=> 'elephant']) !!}
+                                    {!! Form::number('rhino',@$wildlife->rhino,['placeholder' => 'RHINO', 'class'=>'  form-control','id'=> 'rhino']) !!}
+                                    {!! Form::number('giraffe',@$wildlife->giraffe,['placeholder' => 'GIRAFFE', 'class'=>'  form-control','id'=> 'giraffe']) !!}
+                                    {!! Form::number('other',@$wildlife->other,['placeholder' => 'OTHER', 'class'=>'  form-control','id'=> 'other']) !!}
                                 </div>
                             </div>
                         </div>
@@ -22,8 +25,8 @@
                             <div class="mb-1">
                                 <label class="form-label">HUMAN-WILDLIFE CONFLICT</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::number('injured',null,['placeholder' => 'INJURED', 'class'=>'  form-control','id'=> 'injured']) !!}
-                                    {!! Form::number('fatal',null,['placeholder' => 'FATALS', 'class'=>'  form-control','id'=> 'fatal']) !!}
+                                    {!! Form::number('injured',@$wildlife->injured,['placeholder' => 'INJURED', 'class'=>'  form-control','id'=> 'injured']) !!}
+                                    {!! Form::number('fatal',@$wildlife->fatal,['placeholder' => 'FATALS', 'class'=>'  form-control','id'=> 'fatal']) !!}
                                 </div>
                             </div>
                         </div>

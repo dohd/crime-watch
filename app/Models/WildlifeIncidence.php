@@ -20,7 +20,7 @@ class WildlifeIncidence extends Model
         'giraffe',
         'other',
         'injured',
-        'fetal',
+        'fatal',
         'incident_record_id',
         'user_id',
     ];

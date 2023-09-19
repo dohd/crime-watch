@@ -29,6 +29,9 @@
     $terrorism = 0;
     $boarder = 0;
     $contraband = 0;
+    $kidnapping = 0;
+    $wildlife = 0;
+    $firearm = 0;
     $cattle_rustling = 0;
     $ethnic_clashes = 0;
     $stock_theft = 0;
@@ -64,6 +67,7 @@
         if ($incidentrecord->gangfirearm == 'gangfirearm') {
             $gangfirearm = 1;
         }
+        
         switch ($incidentrecord->special_check) {
             case 'gambling': $gambling = 1; break;
             case 'mob_injustice': $mob_injustice = 1; break;
@@ -634,9 +638,6 @@
 <!-- School Unrest start -->
 @include('incidences.sections.school')
 <!-- School Unrest  end -->
-<!--  Wildlife   -->
-@include('incidences.sections.wildlife')
-<!-- Wildlife Gang end -->
 <!--  Illicitbrew   -->
 @include('incidences.sections.illicitbrew')
 <!-- Illicitbrew  end -->
