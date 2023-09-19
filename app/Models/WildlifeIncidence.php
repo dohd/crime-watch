@@ -6,24 +6,28 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WidlifeIncidence extends Model
+class WildlifeIncidence extends Model
 {
-    use HasFactory,UUID;
+    use HasFactory, UUID;
+
+    protected $table = 'wildlife_incidences';
+
     protected $fillable = [
         'uuid',
-        'date_commited', 
+        'date_commited',
         'elephant',
         'rhino',
-        'giraffe', 
+        'giraffe',
         'injured',
         'fetal',
-        'user_id', 
-  
-       
-      
+        'user_id',
     ];
+
+    /**
+     * Relationships
+     */
     public function wildlifeStastics()
     {
-        return $this->hasMany(WidlifeStatistic::class);
+        return $this->hasMany(WildlifeStatistic::class);
     }
 }

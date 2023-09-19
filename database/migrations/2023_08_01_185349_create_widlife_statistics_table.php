@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWidlifeStatisticsTable extends Migration
+class CreateWildlifeStatisticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,12 +16,12 @@ class CreateWidlifeStatisticsTable extends Migration
         Schema::create('widlife_statistics', function (Blueprint $table) {
             $table->id();
             $table->integer('statistic_value')->default('0');
-            $table->bigInteger('widlife_incidence_id')->unsigned();
+            $table->bigInteger('wildlife_incidence_id')->unsigned();
             $table->bigInteger('region_id')->unsigned();
             $table->bigInteger('incident_file_id')->unsigned();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
             $table->foreign('incident_file_id')->references('id')->on('incident_files')->onDelete('cascade');
-            $table->foreign('widlife_incidence_id')->references('id')->on('widlife_incidences')->onDelete('cascade');
+            $table->foreign('wildlife_incidence_id')->references('id')->on('widlife_incidences')->onDelete('cascade');
             $table->timestamps();
         });
     }

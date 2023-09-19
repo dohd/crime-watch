@@ -233,6 +233,7 @@
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
     <script>
+        
         $(function() {
             ('use strict');
             var dtUserTable = $('.user-list-table'),
