@@ -628,9 +628,9 @@
 <!-- School Unrest start -->
 @include('incidences.sections.school')
 <!-- School Unrest  end -->
-<!--  Widlife   -->
+<!--  Wildlife   -->
 @include('incidences.sections.wildlife')
-<!-- Widlife Gang end -->
+<!-- Wildlife Gang end -->
 <!--  Illicitbrew   -->
 @include('incidences.sections.illicitbrew')
 <!-- Illicitbrew  end -->
