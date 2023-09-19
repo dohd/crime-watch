@@ -42,8 +42,6 @@ class IncidentRecord extends Model
         'division_id',
         'c_no_of_arrest',
         'is_dcir',
-        'firearm_magazine',
-        'firearm_explosive',
     ];
 
 
@@ -64,11 +62,11 @@ class IncidentRecord extends Model
     }
     public function firearms()
     {
-        return $this->hasMany(IncidenceFirearm::class);
+        return $this->hasMany(FirearmAndAmmino::class);
     }
     public function ammunitions()
     {
-        return $this->hasMany(IncidenceAmmunition::class);
+        return $this->hasMany(FirearmAmmino::class);
     }
     public function incidentFile()
     {
@@ -150,5 +148,13 @@ class IncidentRecord extends Model
     public function crimesource()
     {
         return $this->belongsTo(CrimeSource::class, 'crime_source_id');
+    }
+    public function wildlife()
+    {
+        return $this->hasOne(WildlifeIncidence::class);
+    }
+    public function firearm_magazine_explosive()
+    {
+        return $this->hasOne(FirearmMagazineExplosive::class);
     }
 }

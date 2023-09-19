@@ -18,8 +18,10 @@ class WildlifeIncidence extends Model
         'elephant',
         'rhino',
         'giraffe',
+        'other',
         'injured',
         'fetal',
+        'incident_record_id',
         'user_id',
     ];
 

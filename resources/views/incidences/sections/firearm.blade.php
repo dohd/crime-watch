@@ -1,7 +1,4 @@
 <section id="firearm-input" class="hide">
-    @php
-        // browserLog($firearms);
-    @endphp
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow-none bg-transparent border-primary">
@@ -16,14 +13,14 @@
                                     <label class="form-label">{{ $row->name }}</label>
                                     <div class="input-group mb-2">
                                         {!! Form::hidden('firearm_id[]', $row->id) !!}
-                                        {!! Form::number('firearm_recov[]', null, [
+                                        {!! Form::number('firearm_recovered[]', null, [
                                             'placeholder' => 'Recovered',
                                             'class' => 'form-control',
                                             'min' => '0',
                                             'id' => 'fa_recov_' . $key,
                                         ]) !!}
-                                        {!! Form::number('firearm_used[]', null, [
-                                            'placeholder' => 'Used',
+                                        {!! Form::number('firearm_surrendered[]', null, [
+                                            'placeholder' => 'Surrendered',
                                             'class' => 'form-control',
                                             'min' => '0',
                                             'id' => 'fa_used_' . $key,

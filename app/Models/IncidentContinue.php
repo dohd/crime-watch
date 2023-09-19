@@ -26,7 +26,7 @@ class IncidentContinue extends Model
         'vic_injured',
         'vic_dead',
         'no_accused',
-        'weapon_used',
-        'weapon_recov'
+        'fa_surrendered',
+        'fa_recovered'
     ];
 }

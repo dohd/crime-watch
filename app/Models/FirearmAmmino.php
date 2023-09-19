@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class FirearmAmmino extends Model
 {
     use HasFactory;
+
+    protected $table = 'firearm_amminos';
+
     protected $fillable = [
         'surrendered',
         'recovered',
         'county_id',
         'ammunition_id',
         'firearm_incidence_id', 
+        'incident_record_id'
     ];
 }

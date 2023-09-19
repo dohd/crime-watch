@@ -108,8 +108,8 @@
                             <div class="mb-1">
                                 <label class="form-label">Weapon</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::number('weapon_used', null, ['placeholder' => 'Used', 'class' => 'form-control','id'=> 'weapon_used']) !!}
-                                    {!! Form::number('weapon_recov', null, ['placeholder' => 'Recovered', 'class' => 'form-control','id'=> 'weapon_recov']) !!}
+                                    {!! Form::number('fa_surrendered', null, ['placeholder' => 'Surrendered', 'class' => 'form-control','id'=> 'weapon_used']) !!}
+                                    {!! Form::number('fa_recovered', null, ['placeholder' => 'Recovered', 'class' => 'form-control','id'=> 'weapon_recov']) !!}
                                 </div>
                             </div>
                         </div>

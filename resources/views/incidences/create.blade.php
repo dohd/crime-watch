@@ -164,10 +164,10 @@
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
     <script>
-        $('.add-new-incidence').submit(function(e) {
-            $('input,select').filter(function() { return $(this).val() == ""; }).prop('disabled', true);
-            $(this)[0].submit();
-        });
+        // $('.add-new-incidence').submit(function(e) {
+        //     $('input,select').filter(function() { return $(this).val() == ""; }).prop('disabled', true);
+        //     $(this)[0].submit();
+        // });
         $(function() {
             var newUserForm = $('.add-new-incidence');
             var select = $('.select2');

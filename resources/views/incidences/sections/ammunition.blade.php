@@ -16,14 +16,14 @@
                                     <label class="form-label">{{ $row->name }}</label>
                                     <div class="input-group mb-2">
                                         {!! Form::hidden('ammunition_id[]', $row->id) !!}
-                                        {!! Form::number('ammunition_recov[]', @$m_arrest_no, [
+                                        {!! Form::number('ammunition_recovered[]', @$m_arrest_no, [
                                             'placeholder' => 'Recovered',
                                             'class' => 'form-control',
                                             'min' => '0',
                                             'id' => 'ammu_recov_' . $key,
                                         ]) !!}
-                                        {!! Form::number('ammunition_used[]', @$m_no, [
-                                            'placeholder' => 'Used',
+                                        {!! Form::number('ammunition_surrendered[]', @$m_no, [
+                                            'placeholder' => 'Surrendered',
                                             'class' => 'form-control',
                                             'min' => '0',
                                             'id' => 'ammu_used_' . $key,

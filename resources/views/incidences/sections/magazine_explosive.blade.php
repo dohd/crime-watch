@@ -14,7 +14,7 @@
                             <div class="mb-1">
                                 <label class="form-label">Magazine</label>
                                 <div class="input-group mb-2">
-                                    {!! Form::number('firearm_magazine', @$m_arrest_no, [
+                                    {!! Form::number('magazine', @$m_arrest_no, [
                                         'placeholder' => 'Magazine',
                                         'class' => '  form-control',
                                         'min' => '0',
@@ -26,7 +26,7 @@
                         <div class="col-xl-4 col-md-6 col-12">
                             <label class="form-label">Explosive</label>
                             <div class="input-group mb-2">
-                                {!! Form::number('firearm_explosive', @$m_arrest_no, [
+                                {!! Form::number('explosive', @$m_arrest_no, [
                                     'placeholder' => 'Explosive',
                                     'class' => '  form-control',
                                     'min' => '0',
