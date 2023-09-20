@@ -261,6 +261,7 @@
                 location.replace(url);
             }
         });
+        if (!$('#report_type').val()) sessionStorage.removeItem('reportType');
         $('section.report').each(function() {
             const reportType = sessionStorage.reportType || $('#report_type').val();
             if (reportType == $(this).attr('id')) {
