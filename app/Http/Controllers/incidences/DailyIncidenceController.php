@@ -534,8 +534,8 @@ class DailyIncidenceController extends Controller
                     $firearms_data = $request->only('firearm_id', 'firearm_recovered', 'firearm_surrendered');
                     $firearms_data = databaseArray($firearms_data);
                     $firearms_data = array_map(fn($v) => array_replace($v, $fill_params, [
-                        'recovered' => @$v['firearm_recovered'],
-                        'surrendered' => @$v['firearm_surrendered'],
+                        'recovered' => @$v['firearm_recovered'] ?: 0,
+                        'surrendered' => @$v['firearm_surrendered'] ?: 0,
                     ]), $firearms_data);
                     $result->firearms()->delete();
                     $result->firearms()->createMany($firearms_data);
@@ -543,8 +543,8 @@ class DailyIncidenceController extends Controller
                     $ammunition_data = $request->only('ammunition_id', 'ammunition_recovered', 'ammunition_surrendered');
                     $ammunition_data = databaseArray($ammunition_data);
                     $ammunition_data = array_map(fn($v) => array_replace($v, $fill_params, [
-                        'recovered' => @$v['ammunition_recovered'],
-                        'surrendered' => @$v['ammunition_surrendered'],
+                        'recovered' => @$v['ammunition_recovered'] ?: 0,
+                        'surrendered' => @$v['ammunition_surrendered'] ?: 0,
                     ]), $ammunition_data);
                     $result->ammunitions()->delete();
                     $result->ammunitions()->createMany($ammunition_data);
