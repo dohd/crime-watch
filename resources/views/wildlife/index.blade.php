@@ -200,7 +200,7 @@ $(function () {
         { data: 'rhino' },
         { data: 'giraffe' },
         { data: 'injured' },
-        { data: 'fetal' },
+        { data: 'fatal' },
      
       ],
       columnDefs: [
