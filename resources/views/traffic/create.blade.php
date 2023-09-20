@@ -430,7 +430,11 @@
                 $('#dataTable tbody tr').each(function() {
                     var total = 0;
                     $(this).find('.data-input').each(function(i) {
-                        if (i > 1) total += parseInt($(this).val()) || 0;
+                        if ($('#report_type').val() == 'accident_report') {
+                            if (i > 1) total += parseInt($(this).val()) || 0;
+                        } else {
+                            total += parseInt($(this).val()) || 0;
+                        }
                     });
                     $(this).find('.total').text(total);
                 });
@@ -439,16 +443,19 @@
                     var colIndex = $(this).index();
                     var total = 0;
                     $('#dataTable tbody tr').each(function() {
-                        var cellValue = parseInt($(this).find('td').eq(colIndex).find('.data-input')
-                            .val()) || 0;
+                        var cellValue = parseInt($(this).find('td').eq(colIndex).find('.data-input').val()) || 0;
                         total += cellValue;
                     });
                     $(this).text(total);
                 });
                 // Update the grand total
                 var grandTotal = 0;
-                $('#dataTable tfoot th.s_total').each(function() {
-                    grandTotal += parseInt($(this).text()) || 0;
+                $('#dataTable tfoot th.s_total').each(function(i) {
+                    if ($('#report_type').val() == 'accident_report') {
+                        if (i > 1) grandTotal += parseInt($(this).text()) || 0;
+                    } else {
+                        grandTotal += parseInt($(this).text()) || 0;
+                    }
                 });
                 $('#dataTable tfoot th.g_total').text(grandTotal);
             }
