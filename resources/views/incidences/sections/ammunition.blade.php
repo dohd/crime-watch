@@ -1,6 +1,14 @@
-<section id="ammunition-input" class="hide">
+<section id="ammunition-input" class="{{ $firearm == 1 ? '' : 'hide' }}">
     @php
-        // browserLog($ammunitions);
+        foreach ($ammunitions as $key => $ammunition) {
+            if (!isset($incidentrecord->ammunitions)) break;
+            foreach ($incidentrecord->ammunitions as $key => $incident_ammu) {
+                if ($incident_ammu->ammunition_id == $ammunition->id) {
+                    $ammunition['recovered'] = $incident_ammu->recovered;
+                    $ammunition['surrendered'] = $incident_ammu->surrendered;
+                }
+            }
+        }
     @endphp
     <div class="row">
         <div class="col-md-12">
@@ -16,13 +24,13 @@
                                     <label class="form-label">{{ $row->name }}</label>
                                     <div class="input-group mb-2">
                                         {!! Form::hidden('ammunition_id[]', $row->id) !!}
-                                        {!! Form::number('ammunition_recovered[]', @$m_arrest_no, [
+                                        {!! Form::number('ammunition_recovered[]', $row->recovered, [
                                             'placeholder' => 'Recovered',
                                             'class' => 'form-control',
                                             'min' => '0',
                                             'id' => 'ammu_recov_' . $key,
                                         ]) !!}
-                                        {!! Form::number('ammunition_surrendered[]', @$m_no, [
+                                        {!! Form::number('ammunition_surrendered[]', $row->surrendered, [
                                             'placeholder' => 'Surrendered',
                                             'class' => 'form-control',
                                             'min' => '0',
