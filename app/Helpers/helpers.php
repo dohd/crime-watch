@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Str;
 
 
@@ -23,13 +24,12 @@ if (!function_exists('numberClean')) {
 function date_for_database($input)
 {
     $timestamp = strtotime($input);
-   if($timestamp) {
-       $date = new DateTime($input);
-       //$date->modify('+1 day');
-       $date = $date->format('Y-m-d');
-       return $date;
-   }
-   else return null;
+    if ($timestamp) {
+        $date = new DateTime($input);
+        //$date->modify('+1 day');
+        $date = $date->format('Y-m-d');
+        return $date;
+    } else return null;
 }
 
 function datetime_for_database($input)
@@ -54,8 +54,7 @@ function amountFormat($number = 0, $currency = null)
         $thousand_sep = config('currency.thousand_sep');
         $symbol_position = config('currency.symbol_position');
         $symbol = config('currency.symbol');
-
-    } 
+    }
 
     $number = number_format($number, $precision_point, $decimal_sep, $thousand_sep);
     if ($symbol_position) {
@@ -73,14 +72,14 @@ function numberFormat($number = 0, $currency = null, $precision_point_off = fals
         $thousand_sep = config('currency.thousand_sep');
     }
     if ($precision_point_off) $precision_point = 0;
-    $number=(float)$number;
+    $number = (float)$number;
     $number = number_format($number, $precision_point, $decimal_sep, $thousand_sep);
     return $number;
 }
 
 function dateFormat($date = '', $local = false)
 {
-    if ($local AND strtotime($date)) return date($local, strtotime($date));
+    if ($local and strtotime($date)) return date($local, strtotime($date));
     if (strtotime($date)) return date('d-m-Y', strtotime($date));
     return date('d-m-Y');
 }
@@ -98,7 +97,7 @@ function timeFormat($date = '')
 }
 function encrypt_data($data = '')
 {
-   return base64_encode(base64_encode(base64_encode(strrev($data))));
+    return base64_encode(base64_encode(base64_encode(strrev($data))));
 }
 
 function decrypt_data($data = '')
@@ -116,24 +115,23 @@ function token_validator($request_token, $data, $return_token = false)
 
 function getHashCode()
 {
-  return bin2hex(openssl_random_pseudo_bytes(20));
+    return bin2hex(openssl_random_pseudo_bytes(20));
 }
 
- function makeSlug($title, $hash = FALSE)
+function makeSlug($title, $hash = FALSE)
 {
-   
-    $slug =Str::slug($title,'-');
-    
-    
 
-        if(!$hash){
-            $slug=$slug.'-'.getHashCode();
+    $slug = Str::slug($title, '-');
 
-        }else{
-            $slug=getHashCode();
-        }
 
-   
+
+    if (!$hash) {
+        $slug = $slug . '-' . getHashCode();
+    } else {
+        $slug = getHashCode();
+    }
+
+
     return  $slug;
 }
 
@@ -154,25 +152,25 @@ function generateSerialNumber(int $id)
         $letters_value = floor($letters_value / $base);
     }
 
-return $letters.'-'.sprintf('%03d', $numbers);
+    return $letters . '-' . sprintf('%03d', $numbers);
 }
 
 
-function generateProductSku($sku_prefix,$string)
+function generateProductSku($sku_prefix, $string)
 {
 
     return $sku_prefix . str_pad($string, 4, '0', STR_PAD_LEFT);
 }
 
- function downloadFile($file)
-    {
-    	$myFile = public_path("uploads/".$file);
+function downloadFile($file)
+{
+    $myFile = public_path("uploads/" . $file);
 
 
-    	return response()->download($myFile);
-    }
+    return response()->download($myFile);
+}
 
-    function form_return($val)
+function form_return($val)
 {
     if (empty($val)) return 0;
     return $val;
@@ -181,7 +179,7 @@ function generateProductSku($sku_prefix,$string)
 
 function dorDateFormat($date)
 {
-    return date('l, F j,Y',strtotime($date . "+1 days"));
+    return date('l, F j,Y', strtotime($date . "+1 days"));
 }
 
 
@@ -209,7 +207,7 @@ if (!function_exists('printLog')) {
 }
 
 if (!function_exists('databaseArray')) {
-    function databaseArray($input=[])
+    function databaseArray($input = [])
     {
         $input_mod = [];
         foreach ($input as $key => $value) {
@@ -222,7 +220,7 @@ if (!function_exists('databaseArray')) {
 }
 
 if (!function_exists('fillArray')) {
-    function fillArray($main=[], $params=[])
+    function fillArray($main = [], $params = [])
     {
         foreach ($params as $key => $value) {
             $main[$key] = $value;
@@ -232,7 +230,7 @@ if (!function_exists('fillArray')) {
 }
 
 if (!function_exists('fillArrayRecurse')) {
-    function fillArrayRecurse($main=[], $params=[])
+    function fillArrayRecurse($main = [], $params = [])
     {
         foreach ($main as $i => $row) {
             foreach ($params as $key => $value) {
