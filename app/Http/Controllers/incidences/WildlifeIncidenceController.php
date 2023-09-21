@@ -44,10 +44,10 @@ class WildlifeIncidenceController extends Controller
      */
     public function create()
     {
-       
-        $incidences=IncidentFile::where('crime_category_id',23)->get();
-        $regions=Region::where('is_report',1)->get();
-      return view('wildlife.create',compact('incidences','regions'));
+        $incidences = IncidentFile::where('crime_category_id', 23)->get();
+        $regions = Region::where('is_report', 1)->get();
+
+        return view('wildlife.create', compact('incidences', 'regions'));
     }
 
     /**
@@ -75,10 +75,10 @@ class WildlifeIncidenceController extends Controller
         $inputDateCarbon = Carbon::parse($input['date_commited']);
         $month = $inputDateCarbon->month;
         $year = $inputDateCarbon->year;
-        
+
         $exists = WildlifeIncidence::whereYear('date_commited', $year)
             ->whereMonth('date_commited', $month)->exists();
-        if($exists) {
+        if ($exists) {
             return [
                 'success' => false,
                 'msg' => "Record for this day is already captured!!",
@@ -93,17 +93,17 @@ class WildlifeIncidenceController extends Controller
             $result = WildlifeIncidence::create($input);
 
             $amaster = [];
-            foreach($input['incident_file_id'] as $key=>$value){
+            foreach ($input['incident_file_id'] as $key => $value) {
                 $amaster[] = [
-                    'statistic_value'=> form_return($input['statistic_value'][$key]),
-                    'incident_file_id'=> $value,
-                    'region_id'=> $input['region_id'][$key],
+                    'statistic_value' => form_return($input['statistic_value'][$key]),
+                    'incident_file_id' => $value,
+                    'region_id' => $input['region_id'][$key],
                 ];
             }
-            $amaster = array_filter($amaster, fn($v) => @$v['statistic_value']);
+            $amaster = array_filter($amaster, fn ($v) => @$v['statistic_value']);
             if (!$amaster) trigger_error('Wildlife statistic required');
             $result->wildlifeStastics()->createMany($amaster);
-            
+
             DB::commit();
             $output = [
                 'success' => true,
@@ -139,10 +139,10 @@ class WildlifeIncidenceController extends Controller
      */
     public function edit($id)
     {
-        $incidences=IncidentFile::where('crime_category_id',23)->get();
-        $regions=Region::where('is_report',1)->get();
+        $incidences = IncidentFile::where('crime_category_id', 23)->get();
+        $regions = Region::where('is_report', 1)->get();
         $wildlifeincidence = WildlifeIncidence::with(['wildlifeStastics'])->where('uuid', $id)->first();
-      return view('wildlife.edit',compact('wildlifeincidence','incidences','regions'));
+        return view('wildlife.edit', compact('wildlifeincidence', 'incidences', 'regions'));
     }
 
     /**
@@ -156,7 +156,7 @@ class WildlifeIncidenceController extends Controller
     {
         if (!request()->ajax()) return redirect()->back();
 
-        $input_main = $request->only(['date_commited','elephant','rhino','giraffe','injured','fetal']);
+        $input_main = $request->only(['date_commited', 'elephant', 'rhino', 'giraffe', 'injured', 'fetal']);
         $validator = Validator::make($request->all(), [
             'date_commited' => 'required',
         ]);
@@ -167,8 +167,8 @@ class WildlifeIncidenceController extends Controller
                 'msg' => "Date field is required",
             ];
         }
-        $input_main['date_commited']=date_for_database($input_main['date_commited']);
-    
+        $input_main['date_commited'] = date_for_database($input_main['date_commited']);
+
         try {
             //Begin DB  
             DB::beginTransaction();
@@ -179,18 +179,18 @@ class WildlifeIncidenceController extends Controller
             $result->touch();
             $input = $request->except(['_token']);
             $result->wildlifeStastics()->delete();
-            $amaster=[];
-            foreach($input['incident_file_id'] as $key=>$value){
+            $amaster = [];
+            foreach ($input['incident_file_id'] as $key => $value) {
                 $amaster[] = array(
                     'statistic_value' => form_return($input['statistic_value'][$key]),
                     'incident_file_id' => $value,
                     'region_id' => $input['region_id'][$key],
                 );
             }
-            $amaster = array_filter($amaster, fn($v) => @$v['statistic_value']);
+            $amaster = array_filter($amaster, fn ($v) => @$v['statistic_value']);
             if (!$amaster) trigger_error('Wildlife statistic required');
             $result->wildlifeStastics()->createMany($amaster);
-            
+
             DB::commit();
             $output = [
                 'success' => true,
