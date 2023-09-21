@@ -1,11 +1,9 @@
 @extends('layouts.app')
 @section('title', 'Import-S')
 <style>
-    .hide {
-        display: none;
-    }
-
-
+  .hide {
+    display: none;
+  }
 </style>
 @section('content')
     <!-- BEGIN: Content-->
