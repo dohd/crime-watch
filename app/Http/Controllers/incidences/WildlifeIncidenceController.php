@@ -95,9 +95,9 @@ class WildlifeIncidenceController extends Controller
             $amaster = [];
             foreach($input['incident_file_id'] as $key=>$value){
                 $amaster[] = [
-                    'statistic_value'=>form_return($input['statistic_value'][$key]),
-                    'incident_file_id'=>$value,
-                    'region_id'=>$input['region_id'][$key],
+                    'statistic_value'=> form_return($input['statistic_value'][$key]),
+                    'incident_file_id'=> $value,
+                    'region_id'=> $input['region_id'][$key],
                 ];
             }
             $amaster = array_filter($amaster, fn($v) => @$v['statistic_value']);
@@ -182,9 +182,9 @@ class WildlifeIncidenceController extends Controller
             $amaster=[];
             foreach($input['incident_file_id'] as $key=>$value){
                 $amaster[] = array(
-                    'statistic_value'=>form_return($input['statistic_value'][$key]),
-                    'incident_file_id'=>$value,
-                    'region_id'=>$input['region_id'][$key],
+                    'statistic_value' => form_return($input['statistic_value'][$key]),
+                    'incident_file_id' => $value,
+                    'region_id' => $input['region_id'][$key],
                 );
             }
             $amaster = array_filter($amaster, fn($v) => @$v['statistic_value']);
