@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class IncidentFile extends Model
 {
-    use HasFactory,UUID;
+    use HasFactory, UUID;
+
+    protected $table = 'incident_files';
+    
     protected $fillable = [
         'name', 
         'is_dcir',
@@ -17,11 +20,13 @@ class IncidentFile extends Model
         'is_regional',
         'crime_category_id',
         'uuid'
-      
     ];
+
+    /**
+     * Relationships
+     */
     public function crimecategory()
     {
         return $this->belongsTo(CrimeCategory::class,'crime_category_id','id');
     }
-    
 }
