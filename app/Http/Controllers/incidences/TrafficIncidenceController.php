@@ -46,7 +46,7 @@ class TrafficIncidenceController extends Controller
     public function create()
     {
         $regions = Region::where('is_report', 1)->get();
-        $tactions = TrafficEnforcementAction::get();
+        $tactions = TrafficEnforcementAction::orderBy('sort', 'asc')->get();
         $types = TrafficType::get();
         $categories = TraffiCategory::get();
 
@@ -186,11 +186,11 @@ class TrafficIncidenceController extends Controller
     public function edit($id)
     {
         $regions = Region::where('is_report', 1)->get();
-        $tactions = TrafficEnforcementAction::get();
+        $tactions = TrafficEnforcementAction::orderBy('sort', 'asc')->get();
         $types = TrafficType::get();
         $categories = TraffiCategory::get();
         $trafficincidence = TrafficIncidence::with(['reportByCategory', 'reportByRegion', 'reportByRules'])->where('uuid', $id)->first();
-        //  dd( $trafficincidence);
+        
         return view('traffic.edit', compact('trafficincidence', 'regions', 'tactions', 'types', 'categories'));
     }
 
