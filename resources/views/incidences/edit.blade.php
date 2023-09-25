@@ -160,11 +160,9 @@
     <!-- END: Page JS-->
     <script>
         $(function() {
-            ('use strict');
-            var dtUserTable = $('.user-list-table'),
-                newUserForm = $('.add-new-incidence'),
-                select = $('.select2'),
-                assetPath = $('body').attr('data-asset-path');
+            var newUserForm = $('.add-new-incidence');
+            var select = $('.select2');
+            var assetPath = $('body').attr('data-asset-path');
             select.each(function() {
                 var $this = $(this);
                 $this.wrap('<div class="position-relative"></div>');
@@ -176,70 +174,66 @@
                     dropdownParent: $this.parent()
                 });
             });
-            
             $("#spinner").hide();
             // Form Validation
-            if (newUserForm.length) {
-                newUserForm.validate({
-                    errorClass: 'error',
-                    rules: {
-                        'name': {
-                            required: true
-                        }
-                    }
-                });
-                newUserForm.on('submit', function(e) {
-                    var isValid = newUserForm.valid();
-                    e.preventDefault();
-                    if (isValid) {
-                        // filter out empty fields
-                        $('input,select').filter(function() { return $(this).val() == ''; }).prop('disabled', true);
+            if (!newUserForm.length) return;
+            newUserForm.validate({
+                errorClass: 'error',
+                rules: {
+                    name: {required: true}
+                }
+            });
+            // Form Submission
+            newUserForm.submit(function(e) {
+                e.preventDefault();
+                var isValid = newUserForm.valid();
+                if (isValid) {
+                    // filter out empty fields
+                    $('input,select').filter(function() { return $(this).val() == ''; }).prop('disabled', true);
 
-                        var data = $(this).serialize();
-                        $("#spinner").show();
-                        $("#submit-data").hide();
-                        $.ajax({
-                            method: "post",
-                            url: $(this).attr("action"),
-                            data: new FormData(this),
-                            contentType: false,
-                            cache: false,
-                            processData: false,
-                            success: function(result) {
-                                console.log(result);
-                                if (result.success == true) {
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: result.msg,
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        customClass: {
-                                            confirmButton: 'btn btn-primary'
-                                        },
-                                        buttonsStyling: false
-                                    });
-                                    location.reload();
-                                } else {
-                                    $("#submit-data").show();
-                                    $("#spinner").hide();
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        title: 'Error!',
-                                        text: result.msg,
-                                        icon: 'error',
-                                        customClass: {
-                                            confirmButton: 'btn btn-primary'
-                                        },
-                                        buttonsStyling: false
-                                    });
-                                }
+                    var data = $(this).serialize();
+                    $("#spinner").show();
+                    $("#submit-data").hide();
+                    $.ajax({
+                        method: "post",
+                        url: $(this).attr("action"),
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(result) {
+                            console.log(result);
+                            if (result.success == true) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: result.msg,
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                });
+                                location.reload();
+                            } else {
+                                $("#submit-data").show();
+                                $("#spinner").hide();
+                                Swal.fire({
+                                    position: 'top-end',
+                                    title: 'Error!',
+                                    text: result.msg,
+                                    icon: 'error',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                });
                             }
-                        });
-                    }
-                });
-            }
-            
+                        }
+                    });
+                }
+            });            
         });
 
         $(document).on('click', '.edit-county', function() {
@@ -711,21 +705,30 @@
                 }
             });
         });
-            // form police officer
-            $('.policeofficer-repeater, .policeofficer-default').repeater({
+            // police officer section repeater
+        $('.policeofficer-repeater, .policeofficer-default').repeater({
             show: function() {
                 $(this).slideDown();
                 $(this).find('.select2').select2();
                 // Feather Icons
-                if (feather) {
-                    feather.replace({
-                        width: 14,
-                        height: 14
-                    });
-                }
+                if (feather) feather.replace({width: 14,height: 14});
             },
             hide: function(deleteElement) {
-                if (confirm('Are you sure you want to delete this element?')) {
+                if (confirm('Are you sure you want to delete this?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            }
+        });
+        // illicit brew section repeater
+        $('.illicitbrew-repeater, .illicitbrew-default').repeater({
+            show: function() {
+                $(this).slideDown();
+                $(this).find('.select2').select2();
+                // Feather Icons
+                if (feather) feather.replace({width: 14,height: 14});
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this?')) {
                     $(this).slideUp(deleteElement);
                 }
             }

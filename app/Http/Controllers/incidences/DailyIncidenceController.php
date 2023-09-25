@@ -213,7 +213,10 @@ class DailyIncidenceController extends Controller
                 }
                 //Illicitbrew 
                 if ($result->special_check == 'illicitbrew') {
-                    IllicitBrewlIncidence::create($input);
+                    foreach ($input['illicitbrew'] as $key => $value) {
+                        $value['incident_record_id'] = $result['id'];
+                        IllicitBrewlIncidence::create($value);
+                    }
                 }
                 //Terrorism 
                 if ($result->special_check == 'terrorism') {
@@ -461,12 +464,13 @@ class DailyIncidenceController extends Controller
                     $updateRecord->update($input_school);
                     $updateRecord->touch();
                 }
-                //Illicitbrew 
+                //Illicit Brew 
                 if ($result->special_check == 'illicitbrew') {
-                    $input_illicitbrew = $request->only(['type_illicitbrew', 'im_arrested', 'im_taken_to_court', 'im_destroyed', 'id_arrested', 'id_taken_to_court', 'id_destroyed', 'ir_arrested', 'ic_taken_to_court']);
-                    $updateRecord = $result->illicitBrew();
-                    $updateRecord->update($input_illicitbrew);
-                    $updateRecord->touch();
+                    $result->illicitBrews()->delete();
+                    foreach ($request->illicitbrew as $key => $value) {
+                        $value['incident_record_id'] = $result->id;
+                        IllicitBrewlIncidence::create($value);
+                    }
                 }
                 //Terrorism 
                 if ($result->special_check == 'terrorism') {

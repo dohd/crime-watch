@@ -14,6 +14,7 @@ class FirearmAndAmmino extends Model
     protected $fillable = [
         'surrendered',
         'recovered',
+        'serial_no',
         'county_id',
         'firearm_id',
         'firearm_incidence_id',

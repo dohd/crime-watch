@@ -117,6 +117,10 @@ class IncidentRecord extends Model
     {
         return $this->hasOne(IllicitBrewlIncidence::class);
     }
+    public function illicitBrews()
+    {
+        return $this->hasMany(IllicitBrewlIncidence::class);
+    }
     public function mobInjustice()
     {
         return $this->hasOne(MobInjusticeIncidence::class);
