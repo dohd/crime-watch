@@ -328,7 +328,7 @@
                 $(".breifing_report").show();
                 $(".special_report").hide();
             }
-        }).val('Special Report').change();
+        });
 
         // special report input checks
         $("#addincident").change(function() {

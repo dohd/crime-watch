@@ -325,6 +325,7 @@
                 $(".special_report").hide();
             }
         });
+        
         $("#addincident").change(function() {
             if ($(this).is(":checked")) {
                 $("#addincident-input").show();
