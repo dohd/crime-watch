@@ -164,6 +164,7 @@
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
     <script>
+        // form submit handler
         $(function() {
             var newUserForm = $('.add-new-incidence');
             var select = $('.select2');
@@ -207,7 +208,6 @@
                         cache: false,
                         processData: false,
                         success: function(result) {
-                            console.log(result);
                             if (result.success == true) {
                                 Swal.fire({
                                     position: 'top-end',
@@ -240,92 +240,8 @@
                 }
             });
         });
-        
-        $(document).on('click', '.edit-county', function() {
-            // alert($(this).data('href'));
-            $('div.editCountyModal').load($(this).data('href'), function() {
-                $(this).modal('show');
-                $('form#edit_county').submit(function(e) {
-                    e.preventDefault();
-                    $(this)
-                        .find('button[type="submit"]')
-                        .attr('disabled', true);
-                    //var data = $(this).serialize();
-                    $.ajax({
-                        method: 'POST',
-                        url: $(this).attr('action'),
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(result) {
-                            if (result.success == true) {
-                                $('div.editCountyModal').modal('hide');
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: result.msg,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    customClass: {
-                                        confirmButton: 'btn btn-primary'
-                                    },
-                                    buttonsStyling: false
-                                });
-                                location.reload();
-                            } else {
-                                $(this)
-                                    .find('button[type="submit"]')
-                                    .attr('disabled', false);
-                                Swal.fire({
-                                    position: 'top-end',
-                                    title: 'Error!',
-                                    text: result.msg,
-                                    icon: 'error',
-                                    customClass: {
-                                        confirmButton: 'btn btn-primary'
-                                    },
-                                    buttonsStyling: false
-                                });
-                            }
-                        },
-                    });
-                });
-            });
-        });
 
-        $(document).on('click', '.delete-county', function(e) {
-            e.preventDefault();
-            Swal.fire({
-                type: 'warning',
-                title: "Are You Sure",
-                showCancelButton: true,
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete.value) {
-                    var href = $(this).data('href');
-                    $.ajax({
-                        method: "DELETE",
-                        url: href,
-                        dataType: "json",
-                        data: {
-                            '_token': '{{ csrf_token() }}',
-                        },
-                        success: function(result) {
-                            if (result.success == true) {
-                                toastr.success(result.msg);
-                                location.reload();
-                            } else {
-                                toastr.error(result.msg);
-                            }
-                        }
-                    });
-                } else {
-                    Swal.fire('County not deleted', '', 'info')
-                }
-            });
-        });
+        // set full editor
         (function(window, document, $) {
             'use strict';
             var Font = Quill.import('formats/font');
@@ -412,174 +328,125 @@
                 $(".breifing_report").show();
                 $(".special_report").hide();
             }
-        });
+        }).val('Special Report').change();
+
+        // special report input checks
         $("#addincident").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#addincident-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#addincident-input").hide();
             }
         });
         $("#gangfirearm").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#gangfirearm-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#gangfirearm-input").hide();
             }
         });
         $("#gambling").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#gambling-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#gambling-input").hide();
             }
         });
         $("#mob_injustice").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#mobinjustice-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#mobinjustice-input").hide();
             }
         });
         $("#money_matters").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#moneymatters-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#moneymatters-input").hide();
             }
         });
         $("#police_officers").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#policeofficers-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#policeofficers-input").hide();
             }
         });
         $("#arrest_of_foreigners").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#arrestoffeoreigners-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#arrestoffeoreigners-input").hide();
             }
         });
         $("#criminal_gang").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#criminalgang-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#criminalgang-input").hide();
             }
         });
         $("#school").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#school-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#school-input").hide();
             }
         });
         $("#illicitbrew").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#illicitbrew-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#illicitbrew-input").hide();
             }
         });
         $("#terrorism").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#terrorism-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#terrorism-input").hide();
             }
         });
         $("#boarder").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#boarder-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#boarder-input").hide();
             }
         });
         $("#contraband").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#contraband-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#contraband-input").hide();
             }
         });
         $("#cattle_rustling").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#cattlerustling-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#cattlerustling-input").hide();
             }
         });
         $("#ethnic_clashes").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#ethnicclashes-input").show();
-            } else {
-                // If unchecked, hide the div
+            } else {                
                 $("#ethnicclashes-input").hide();
             }
         });
-        $("#stock_theft").change(function() {
-            // Check if the checkbox is checked
-            if ($(this).is(":checked")) {
-                // If checked, show the div
+        $("#stock_theft").change(function() {            
+            if ($(this).is(":checked")) {                
                 $("#stocktheft-input").show();
-            } else {
-                // If unchecked, hide the div
+            } else {                
                 $("#stocktheft-input").hide();
             }
         });
         $("#alien").change(function() {
-            // Check if the checkbox is checked
             if ($(this).is(":checked")) {
-                // If checked, show the div
                 $("#alien-input").show();
             } else {
-                // If unchecked, hide the div
                 $("#alien-input").hide();
             }
         });
@@ -588,6 +455,13 @@
                 $("#wildlife-input").show();
             } else {
                 $("#wildlife-input").hide();
+            }
+        });
+        $("#kidnapping").change(function() {
+            if ($(this).is(":checked")) {
+                $("#kidnapping-input").show();
+            } else {
+                $("#kidnapping-input").hide();
             }
         });
         $("#firearm").change(function() {
@@ -601,6 +475,7 @@
                 $("#magnexpl-input").hide();
             }
         });
+
         $("#incident_file_id").change(function() {
             $.ajaxSetup({
                 headers: {
@@ -620,29 +495,11 @@
                 }
             });
         });
-        // form repeater jquery
-        $('.alien-repeater, .alien-default').repeater({
-            show: function() {
-                $(this).slideDown();
-                $(this).find('.select2').select2();
-                // Feather Icons
-                if (feather) {
-                    feather.replace({
-                        width: 14,
-                        height: 14
-                    });
-                }
-            },
-            hide: function(deleteElement) {
-                if (confirm('Are you sure you want to delete this element?')) {
-                    $(this).slideUp(deleteElement);
-                }
-            }
-        });
+        
         $("#station_id").change(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 }
             });
             $.ajax({
@@ -660,6 +517,15 @@
                     $('#county_name').val(response.county.name);
                     $('#division_name').val(response.division.name);
                 }
+            });
+        });
+
+        $('.kd-input').change(function() {
+            $('.kd-input').each(function() {
+                const male = $(this).siblings('.male').val();
+                const female = $(this).siblings('.female').val();
+                if (!male) $(this).siblings('.male').val(0);
+                if (!female) $(this).siblings('.female').val(0);
             });
         });
 
@@ -706,6 +572,20 @@
             });
         });
 
+        // alien section repeater
+        $('.alien-repeater, .alien-default').repeater({
+            show: function() {
+                $(this).slideDown();
+                $(this).find('.select2').select2();
+                // Feather Icons
+                if (feather) feather.replace({width: 14,height: 14});
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            }
+        });
         // police officer section repeater
         $('.policeofficer-repeater, .policeofficer-default').repeater({
             show: function() {

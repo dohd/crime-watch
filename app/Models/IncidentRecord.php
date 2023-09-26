@@ -161,4 +161,8 @@ class IncidentRecord extends Model
     {
         return $this->hasOne(FirearmMagazineExplosive::class);
     }
+    public function kidnappings()
+    {
+        return $this->hasMany(KidnappingIncidence::class);
+    }
 }

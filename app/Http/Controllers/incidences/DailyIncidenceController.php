@@ -180,7 +180,7 @@ class DailyIncidenceController extends Controller
                     GangFirearm::create($input);
                 }
             }
-
+            
             //add Special Reports
             if ($result->report_type == 'Special Report') {
                 //Gambling
@@ -250,7 +250,10 @@ class DailyIncidenceController extends Controller
                 }
                 //Kidnapping
                 if ($result->special_check == 'kidnapping') {
-                    // 
+                    $kidnappings_data = $request->only('age_grouping_id', 'male', 'female');
+                    $kidnappings_data = databaseArray($kidnappings_data);
+                    $kidnappings_data = fillArrayRecurse($kidnappings_data, ['incident_record_id' => $result->id]);
+                    $result->kidnappings()->createMany($kidnappings_data);
                 }
                 //Wildlife
                 if ($result->special_check == 'wildlife') {
@@ -521,7 +524,11 @@ class DailyIncidenceController extends Controller
                 }
                 //Kidnapping
                 if ($result->special_check == 'kidnapping') {
-                    // 
+                    $kidnappings_data = $request->only('age_grouping_id', 'male', 'female');
+                    $kidnappings_data = databaseArray($kidnappings_data);
+                    $kidnappings_data = fillArrayRecurse($kidnappings_data, ['incident_record_id' => $result->id]);
+                    $result->kidnappings()->delete();
+                    $result->kidnappings()->createMany($kidnappings_data);
                 }
                 //Wildlife
                 if ($result->special_check == 'wildlife') {

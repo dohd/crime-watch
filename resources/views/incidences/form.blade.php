@@ -662,10 +662,9 @@
 <!-- Aliens  -->
 @include('incidences.sections.alien')
 <!-- End Aliens  -->
-<!-- Gambling Sizing start -->
+<!-- Wildlife start -->
 @include('incidences.sections.wildlife')
-<!-- Gambling  end -->
-
+<!-- Wildlife  end -->
 <!-- Firearm start -->
 <div id="firearm-container">
     @include('incidences.sections.firearm')
@@ -673,4 +672,6 @@
     @include('incidences.sections.magazine_explosive')
 </div>
 <!-- Firearm  end -->
-
+<!-- Kidnapping start -->
+@include('incidences.sections.kidnapping')
+<!-- Kidnapping  end -->
