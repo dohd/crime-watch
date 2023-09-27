@@ -445,7 +445,7 @@
                     var total = 0;
                     $('#dataTable tbody tr').each(function() {
                         var cellValue = parseInt($(this).find('td').eq(colIndex).find('.data-input').val()) || 0;
-                        total += cellValue;
+                        total += cellValue;                        
                     });
                     $(this).text(total);
                 });
@@ -550,8 +550,9 @@
                     var colIndex = $(this).index();
                     var total = 0;
                     $('#myTable tbody tr').each(function() {
-                        var cellValue = parseInt($(this).find('td').eq(colIndex).find(
-                            '.data-input-r').val()) || 0;
+                        const rowLabel = $(this).find('td:first').text();
+                        if (['M/V detained', 'M/Cycles Detained'].includes(rowLabel)) return;
+                        var cellValue = parseInt($(this).find('td').eq(colIndex).find('.data-input-r').val()) || 0;
                         total += cellValue;
                     });
                     $(this).text(total);

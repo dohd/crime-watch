@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive table-wrapper">
-                        <table class="table table-bordered " id="myTable">
+                        <table class="table table-bordered traffic-rules" id="myTable">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Enforcement Action</th>
