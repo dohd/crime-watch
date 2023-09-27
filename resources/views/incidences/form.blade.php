@@ -32,6 +32,7 @@
     $kidnapping = 0;
     $wildlife = 0;
     $firearm = 0;
+    $drugs = 0;
     $cattle_rustling = 0;
     $ethnic_clashes = 0;
     $stock_theft = 0;
@@ -86,6 +87,7 @@
             case 'kidnapping': $kidnapping = 1; break;
             case 'wildlife': $wildlife = 1; break;
             case 'firearm': $firearm = 1; break;
+            case 'drugs': $drugs = 1; break;
         }
     }
 @endphp
@@ -600,6 +602,16 @@
                                         'data-target' => 'firearm-container',
                                     ]) !!}
                                     <label class="form-check-label" for="firearm">Firearm</label>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 nNnncNnol-md-6 col-12 me-0">
+                                <div class="form-check form-check-inline">
+                                    {!! Form::checkbox('special_check', 'drugs', @$drugs, [
+                                        'class' => 'checkbox form-check-input',
+                                        'id' => 'drugs',
+                                        'data-target' => 'drugs-input',
+                                    ]) !!}
+                                    <label class="form-check-label" for="firearm">Drugs</label>
                                 </div>
                             </div>
                         </div>
