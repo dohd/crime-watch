@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+
 class RegionController extends Controller
 {
     /**
@@ -25,11 +26,11 @@ class RegionController extends Controller
             return DataTables::of($data)
                 ->make(true);
         }
-        $regionCount=Region::count();
-        $countyCount=County::count();
-        $divisionCount=Division::count();
-        $stationCount=Station::count();
-        return view('settings.region.index',compact('regionCount','countyCount','divisionCount','stationCount'));
+        $regionCount = Region::count();
+        $countyCount = County::count();
+        $divisionCount = Division::count();
+        $stationCount = Station::count();
+        return view('settings.region.index', compact('regionCount', 'countyCount', 'divisionCount', 'stationCount'));
     }
 
     /**
@@ -52,52 +53,51 @@ class RegionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required',
-           
-            
-         ]);
- 
- 
-         // Check validation failure
-         $noerrors = true;
-         if ($validator->fails()) {
-             $output = [
-                 'success' => false,
-                 'msg' => "Name is  required",
-             ];
-             $noerrors = false;
-         }
- 
-         $input = $request->except(['_token']);
-      
 
-    
-         if ($noerrors) {
+
+        ]);
+
+
+        // Check validation failure
+        $noerrors = true;
+        if ($validator->fails()) {
+            $output = [
+                'success' => false,
+                'msg' => "Name is  required",
+            ];
+            $noerrors = false;
+        }
+
+        $input = $request->except(['_token']);
+
+
+
+        if ($noerrors) {
             // if (request()->ajax()) {
-                 try {
-                    //Begin DB
-                    DB::beginTransaction();
-                  
-                    $result=Region::create($input);
- 
- 
-      
-                     DB::commit();
-                     $output = [
-                         'success' => true,
-                         'msg' => "Record Saved Successfully",
-                     ];
- 
-                 } catch (\Exception $e) {
-                     DB::rollBack();
-                     \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
-                     $output = [
-                         'success' => false,
-                         'msg' => $e->getMessage(),
-                     ];
-                 }
-             //}
-         }
-         return $output;
+            try {
+                //Begin DB
+                DB::beginTransaction();
+
+                $input['sort'] = Region::max('sort') + 1;
+                $result = Region::create($input);
+
+
+                DB::commit();
+                $output = [
+                    'success' => true,
+                    'msg' => "Record Saved Successfully",
+                ];
+            } catch (\Exception $e) {
+                DB::rollBack();
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+                $output = [
+                    'success' => false,
+                    'msg' => $e->getMessage(),
+                ];
+            }
+            //}
+        }
+        return $output;
     }
 
     /**
@@ -119,7 +119,7 @@ class RegionController extends Controller
      */
     public function edit(Region $region)
     {
-        return view('settings.region.edit',compact('region'));
+        return view('settings.region.edit', compact('region'));
     }
 
     /**
@@ -134,14 +134,14 @@ class RegionController extends Controller
         try {
             $is_valid = true;
             $input = $request->except(['_token']);
-       
-            
+
+
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
-              
-          
+
+
             ]);
-      
+
             if ($validator->fails()) {
                 $output = [
                     'success' => false,
@@ -150,10 +150,10 @@ class RegionController extends Controller
                 $is_valid = false;
             }
 
-         
+
             DB::beginTransaction();
 
-        //    dd($input);
+            //    dd($input);
             if ($is_valid) {
                 //save clients
                 $result = Region::find($id);
@@ -185,43 +185,45 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        
-            if (request()->ajax()) {
-                try {
-                   
-    
-                    $can_be_deleted = true;
-                    $error_msg = '';
-                  
-                             
-                    if ($can_be_deleted) {
-                            DB::beginTransaction();
-                             Region::find($id)->delete();
-                          
-                            
-                            DB::commit();
-                    
-    
-                        $output = ['success' => true,
-                                    'msg' => "Region Deleted Successfully"
-                                ];
-                    } else {
-                        $output = ['success' => false,
-                                    'msg' => $error_msg
-                                ];
-                    }
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-                    
-                    $output = ['success' => false,
-                                    'msg' => "Something Went Wrong"
-                                ];
+
+        if (request()->ajax()) {
+            try {
+
+
+                $can_be_deleted = true;
+                $error_msg = '';
+
+
+                if ($can_be_deleted) {
+                    DB::beginTransaction();
+                    Region::find($id)->delete();
+
+
+                    DB::commit();
+
+
+                    $output = [
+                        'success' => true,
+                        'msg' => "Region Deleted Successfully"
+                    ];
+                } else {
+                    $output = [
+                        'success' => false,
+                        'msg' => $error_msg
+                    ];
                 }
-                
-            
-                return $output;
+            } catch (\Exception $e) {
+                DB::rollBack();
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+                $output = [
+                    'success' => false,
+                    'msg' => "Something Went Wrong"
+                ];
             }
-        
+
+
+            return $output;
+        }
     }
 }
