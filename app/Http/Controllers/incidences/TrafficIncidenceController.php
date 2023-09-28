@@ -89,62 +89,72 @@ class TrafficIncidenceController extends Controller
         try {
             //Begin DB  
             DB::beginTransaction();
-
+            
             if (!$result) $result = TrafficIncidence::create($input);
             
             $amaster = [];
-            foreach ($input['traffi_category_id'] as $key => $value) {
-                $amaster[] = array(
-                    'c_report_value' => form_return($input['c_report_value'][$key]),
-                    'traffi_category_id' => $value,
-                    'traffic_type_id' => $input['traffic_type_id'][$key],
-                );
+            if (@$input['traffi_category_id']) {
+                foreach ($input['traffi_category_id'] as $key => $value) {
+                    $amaster[] = array(
+                        'c_report_value' => form_return($input['c_report_value'][$key]),
+                        'traffi_category_id' => $value,
+                        'traffic_type_id' => $input['traffic_type_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($amaster, fn($v) => @$v['c_report_value']);
             if ($categ_values) $result->reportByCategory()->createMany($amaster);
             
             $bamaster = [];
-            foreach ($input['a_traffic_type_id'] as $key => $value) {
-                $bamaster[] = array(
-                    'report_value' => form_return($input['ra_report_value'][$key]),
-                    'report_type' => 1,
-                    'traffic_type_id' => $value,
-                    'region_id' => $input['a_region_id'][$key],
-                );
+            if (@$input['a_traffic_type_id']) {
+                foreach ($input['a_traffic_type_id'] as $key => $value) {
+                    $bamaster[] = array(
+                        'report_value' => form_return($input['ra_report_value'][$key]),
+                        'report_type' => 1,
+                        'traffic_type_id' => $value,
+                        'region_id' => $input['a_region_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($bamaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRegion()->createMany($bamaster);
             
             $bbmaster = [];
-            foreach ($input['v_traffic_type_id'] as $key => $value) {
-                $bbmaster[] = array(
-                    'report_value' => form_return($input['rv_report_value'][$key]),
-                    'report_type' => 2,
-                    'traffic_type_id' => $value,
-                    'region_id' => $input['v_region_id'][$key],
-                );
+            if (@$input['v_traffic_type_id']) {
+                foreach ($input['v_traffic_type_id'] as $key => $value) {
+                    $bbmaster[] = array(
+                        'report_value' => form_return($input['rv_report_value'][$key]),
+                        'report_type' => 2,
+                        'traffic_type_id' => $value,
+                        'region_id' => $input['v_region_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($bbmaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRegion()->createMany($bbmaster);
             
             $cmaster = [];
-            foreach ($input['traffic_enforcement_action_id'] as $key => $value) {
-                $cmaster[] = array(
-                    'report_value' => form_return($input['r_report_value'][$key]),
-                    'traffic_enforcement_action_id' => $value,
-                    'region_id' => form_return($input['r_region_id'][$key])
-                );
+            if (@$input['traffic_enforcement_action_id']) {
+                foreach ($input['traffic_enforcement_action_id'] as $key => $value) {
+                    $cmaster[] = array(
+                        'report_value' => form_return($input['r_report_value'][$key]),
+                        'traffic_enforcement_action_id' => $value,
+                        'region_id' => form_return($input['r_region_id'][$key])
+                    );
+                }
             }
             $categ_values = array_filter($cmaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRules()->createMany($cmaster);
 
             $dmaster = [];
-            foreach ($input['f_region_id'] as $key => $value) {
-                $dmaster[] = array(
-                    'fine_value' => form_return($input['fine_value'][$key]),
-                    'forfeit_value' => form_return($input['forfeit_value'][$key]),
-                    'region_id' => $value
-                );
+            if (@$input['f_region_id']) {
+                foreach ($input['f_region_id'] as $key => $value) {
+                    $dmaster[] = array(
+                        'fine_value' => form_return($input['fine_value'][$key]),
+                        'forfeit_value' => form_return($input['forfeit_value'][$key]),
+                        'region_id' => $value
+                    );
+                }
             }
             $categ_values = array_filter($dmaster, fn($v) => @$v['fine_value']);
             if ($categ_values) $result->reportByFines()->createMany($dmaster);
@@ -232,59 +242,70 @@ class TrafficIncidenceController extends Controller
             $result->reportByRules()->delete();
             $result->reportByFines()->delete();
             $input = $request->except(['_token']);
+
             $amaster = [];
-            foreach ($input['traffi_category_id'] as $key => $value) {
-                $amaster[] = array(
-                    'c_report_value' => form_return($input['c_report_value'][$key]),
-                    'traffi_category_id' => $value,
-                    'traffic_type_id' => $input['traffic_type_id'][$key],
-                );
+            if (@$input['traffi_category_id']) {
+                foreach ($input['traffi_category_id'] as $key => $value) {
+                    $amaster[] = array(
+                        'c_report_value' => form_return($input['c_report_value'][$key]),
+                        'traffi_category_id' => $value,
+                        'traffic_type_id' => $input['traffic_type_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($amaster, fn($v) => @$v['c_report_value']);
             if ($categ_values) $result->reportByCategory()->createMany($amaster);
 
             $bamaster = [];
-            foreach ($input['a_traffic_type_id'] as $key => $value) {
-                $bamaster[] = array(
-                    'report_value' => form_return($input['ra_report_value'][$key]),
-                    'report_type' => 1,
-                    'traffic_type_id' => $value,
-                    'region_id' => $input['a_region_id'][$key],
-                );
+            if (@$input['a_traffic_type_id']) {
+                foreach ($input['a_traffic_type_id'] as $key => $value) {
+                    $bamaster[] = array(
+                        'report_value' => form_return($input['ra_report_value'][$key]),
+                        'report_type' => 1,
+                        'traffic_type_id' => $value,
+                        'region_id' => $input['a_region_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($bamaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRegion()->createMany($bamaster);
 
             $bbmaster = [];
-            foreach ($input['v_traffic_type_id'] as $key => $value) {
-                $bbmaster[] = array(
-                    'report_value' => form_return($input['rv_report_value'][$key]),
-                    'report_type' => 2,
-                    'traffic_type_id' => $value,
-                    'region_id' => $input['v_region_id'][$key],
-                );
+            if (@$input['v_traffic_type_id']) {
+                foreach ($input['v_traffic_type_id'] as $key => $value) {
+                    $bbmaster[] = array(
+                        'report_value' => form_return($input['rv_report_value'][$key]),
+                        'report_type' => 2,
+                        'traffic_type_id' => $value,
+                        'region_id' => $input['v_region_id'][$key],
+                    );
+                }
             }
             $categ_values = array_filter($bbmaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRegion()->createMany($bbmaster);
 
             $cmaster = [];
-            foreach ($input['traffic_enforcement_action_id'] as $key => $value) {
-                $cmaster[] = array(
-                    'report_value' => form_return($input['r_report_value'][$key]),
-                    'traffic_enforcement_action_id' => $value,
-                    'region_id' => form_return($input['r_region_id'][$key])
-                );
+            if (@$input['traffic_enforcement_action_id']) {
+                foreach ($input['traffic_enforcement_action_id'] as $key => $value) {
+                    $cmaster[] = array(
+                        'report_value' => form_return($input['r_report_value'][$key]),
+                        'traffic_enforcement_action_id' => $value,
+                        'region_id' => form_return($input['r_region_id'][$key])
+                    );
+                }
             }
             $categ_values = array_filter($cmaster, fn($v) => @$v['report_value']);
             if ($categ_values) $result->reportByRules()->createMany($cmaster);
 
             $dmaster = [];
-            foreach ($input['f_region_id'] as $key => $value) {
-                $dmaster[] = array(
-                    'fine_value' => form_return($input['fine_value'][$key]),
-                    'forfeit_value' => form_return($input['forfeit_value'][$key]),
-                    'region_id' => $value
-                );
+            if (@$input['f_region_id']) {
+                foreach ($input['f_region_id'] as $key => $value) {
+                    $dmaster[] = array(
+                        'fine_value' => form_return($input['fine_value'][$key]),
+                        'forfeit_value' => form_return($input['forfeit_value'][$key]),
+                        'region_id' => $value
+                    );
+                }
             }
             $categ_values = array_filter($dmaster, fn($v) => @$v['fine_value']);
             if ($categ_values) $result->reportByFines()->createMany($dmaster);

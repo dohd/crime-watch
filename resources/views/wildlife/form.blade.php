@@ -39,33 +39,35 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($incidences as $incident)
-                                    <tr>
-                                        <td>{{ $incident->name }}</td>
-                                        @foreach ($regions as $region)
-                                        @php
-                                        $val = null;
-                                    @endphp
-                                    @if (isset($wildlifeincidence))
-                                        @php
-                                            $val = 0;
-                                        @endphp
-                                        @foreach ($wildlifeincidence->wildlifeStastics as $data)
-                                            @if ($data->region_id == $region->id && $data->incident_file_id == $incident->id)
+                                        <tr>
+                                            <td>{{ $incident->name }}</td>
+                                            @foreach ($regions as $region)
                                                 @php
-                                                    $val = $data->statistic_value;
+                                                    $val = null;
                                                 @endphp
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                        <td >{!! Form::number('statistic_value[]',  $val, [
-                                            'class' => 'data-input',
-                                            'id' => 'statistic_value' . $region->id .'_'.$incident->id.'',
-                                            'style' => 'width:80px;',
-                                        ]) !!}{!! Form::hidden('region_id[]', $region->id) !!} 
-                                        {!! Form::hidden('incident_file_id[]', $incident->id) !!}</td>
+                                                @if (isset($wildlifeincidence))
+                                                    @php
+                                                        $val = 0;
+                                                    @endphp
+                                                    @foreach ($wildlifeincidence->wildlifeStastics as $data)
+                                                        @if ($data->region_id == $region->id && $data->incident_file_id == $incident->id)
+                                                            @php
+                                                                $val = $data->statistic_value;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                <td >
+                                                    {!! Form::number('statistic_value[]',  $val, [
+                                                        'class' => 'data-input',
+                                                        'id' => 'statistic_value' . $region->id .'_'.$incident->id.'',
+                                                        'style' => 'width:80px;',
+                                                    ]) !!}{!! Form::hidden('region_id[]', $region->id) !!} 
+                                                    {!! Form::hidden('incident_file_id[]', $incident->id) !!}
+                                                </td>
                                             @endforeach
                                             <td class="total">0</td>
-                                    </tr>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
