@@ -71,6 +71,7 @@
         
         switch ($incidentrecord->special_check) {
             case 'gambling': $gambling = 1; break;
+            case 'alien': $alien = 1; break;
             case 'mob_injustice': $mob_injustice = 1; break;
             case 'money_matters': $money_matters = 1; break;
             case 'arrest_of_foreigners': $arrest_of_foreigners = 1; break;

@@ -584,7 +584,7 @@ class DailyIncidenceController extends Controller
                 //Alien 
                 if ($result->special_check == 'alien') {
                     $result->aliens()->delete();
-                    $result->aliens()->createMany($input['alien']);
+                    $result->aliens()->createMany($request->alien ?: []);
                 }
                 //Kidnapping
                 if ($result->special_check == 'kidnapping') {
