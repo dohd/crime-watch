@@ -85,7 +85,7 @@
                         <div class="row">
                             <div class="col-md-4 user_role"></div>
                             <div class="col-md-4 user_plan"></div>
-                            <div class="col-md-4 user_status"></div>
+                            <div class="col-md-4 incidence-region"></div>
                         </div>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
@@ -97,11 +97,11 @@
                                 <th>Category</th>
                                 <th>OB No</th>
                                 <th>Incident File</th>
+                                <th>Region</th>
                                 <th>County</th>
                                 <th>Division</th>
                                 <th>Date Commited</th>
                                 <th>Date Reported</th>
-                               
                             </tr>
                             </thead>
                         </table>
@@ -204,6 +204,7 @@ $(function () {
         { data: 'category' },
         { data: 'incident_ref' },
         { data: 'filename' },
+        { data: 'region' },
         { data: 'county_name' },
         { data: 'division_name' },
         { data: 'date_commited' },
@@ -315,7 +316,7 @@ $(function () {
             var column = this;
             var label = $('<label class="form-label" for="UserRole">Report Type</label>').appendTo('.user_role');
             var select = $(
-              '<select id="UserRole" class="form-select text-capitalize mb-md-0 mb-2"><option value=""> Select  </option></select>'
+              '<select id="UserRole" class="form-select text-capitalize mb-md-0 mb-2"><option value="">-- Select Report Type --</option></select>'
             )
               .appendTo('.user_role')
               .on('change', function () {
@@ -338,9 +339,33 @@ $(function () {
             var column = this;
             var label = $('<label class="form-label" for="UserPlan">Category</label>').appendTo('.user_plan');
             var select = $(
-              '<select id="UserPlan" class="form-select text-capitalize mb-md-0 mb-2"><option value=""> Select </option></select>'
+              '<select id="UserPlan" class="form-select text-capitalize mb-md-0 mb-2"><option value="">-- Select Category --</option></select>'
             )
               .appendTo('.user_plan')
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '" class="text-capitalize">' + d + '</option>');
+              });
+          });
+
+        // incidence region filter
+        this.api()
+          .columns(5)
+          .every(function () {
+            var column = this;
+            var label = $('<label class="form-label" for="incidence-region">Region</label>').appendTo('.incidence-region');
+            var select = $(
+              '<select id="incidence_region" class="form-select text-capitalize mb-md-0 mb-2"><option value="">-- Select Region --</option></select>'
+            )
+              .appendTo('.incidence-region')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                 column.search(val ? '^' + val + '$' : '', true, false).draw();
@@ -373,7 +398,6 @@ $(function () {
         'name': {
           required: true
         }
-        
       }
     });
 
