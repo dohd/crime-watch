@@ -206,7 +206,7 @@ class DailyIncidenceController extends Controller
                 if ($result->special_check == 'police_officers') {
                     $result->policeofficers()->createMany($input['policeofficer']);
                 }
-                //Criminal Gang 
+                // School Incidence
                 if ($result->special_check == 'school') {
                     SchoolIncidence::create($input);
                 }
@@ -221,7 +221,7 @@ class DailyIncidenceController extends Controller
                 if ($result->special_check == 'terrorism') {
                     TerrorismIncidence::create($input);
                 }
-                //Boarder 
+                //Border 
                 if ($result->special_check == 'boarder') {
                     BoardermIncidence::create($input);
                 }
@@ -397,7 +397,6 @@ class DailyIncidenceController extends Controller
             
             $result = IncidentRecord::find($id);
             $result->update($input);
-            $result->touch();
 
             // update Briefing Report and Daily Incidences
             if (in_array($result->report_type, ['Briefing Report', 'Daily Incidences'])) {
@@ -422,49 +421,85 @@ class DailyIncidenceController extends Controller
                 //Gambling
                 if ($result->special_check == 'gambling') {
                     $input_gambling = $request->only(['m_arrest_no', 'm_no', 'c_arrest_no', 'c_no', 'p_arrest_no', 'p_no']);
-                    $updateRecord = $result->gambling();
-                    $updateRecord->update($input_gambling);
-                    $updateRecord->touch();
+                    if ($result->gambling) {
+                        if (array_filter($input_gambling)) $result->gambling->update($input_gambling);
+                        else $result->gambling()->delete();
+                    } else {
+                        if (array_filter($input_gambling)) {
+                            $input_gambling['incident_record_id'] = $result->id;
+                            GamblingIncidence::create($input_gambling);
+                        }
+                    }
                 }
                 //Mobinjustice
                 if ($result->special_check == 'mob_injustice') {
                     $input_mobinjustice = $request->only(['suspect', 'age', 'mob_fetal', 'status']);
-                    $updateRecord = $result->mobInjustice();
-                    $updateRecord->update($input_mobinjustice);
-                    $updateRecord->touch();
+                    if ($result->mobInjustice) {
+                        if (array_filter($input_mobinjustice)) $result->mobInjustice->update($input_mobinjustice);
+                        else $result->mobInjustice()->delete();
+                    } else {
+                        if (array_filter($input_mobinjustice)) {
+                            $input_mobinjustice['incident_record_id'] = $result->id;
+                            MobInjusticeIncidence::create($input_mobinjustice);
+                        }
+                    }
                 }
                 //Money Matters
                 if ($result->special_check == 'money_matters') {
                     $input_moneymatters = $request->only(['amount', 'currency', 'm_no_of_arrest', 'circumstances']);
-                    $updateRecord = $result->moneyMatter();
-                    $updateRecord->update($input_moneymatters);
-                    $updateRecord->touch();
+                    if ($result->moneyMatter) {
+                        if (array_filter($input_moneymatters)) $result->moneyMatter->update($input_moneymatters);
+                        else $result->moneyMatter()->delete();
+                    } else {
+                        if (array_filter($input_moneymatters)) {
+                            $input_moneymatters['incident_record_id'] = $result->id;
+                            MoneyMatterIncidence::create($input_moneymatters);
+                        }
+                    }    
                 }
                 //Arrest Of Foreigners
                 if ($result->special_check == 'arrest_of_foreigners') {
                     $input_arrestof_foreigners = $request->only(['f_place', 'f_no_of_arrest', 'f_nationality']);
-                    $updateRecord = $result->arrestOfForeigners();
-                    $updateRecord->update($input_arrestof_foreigners);
-                    $updateRecord->touch();
+                    if ($result->arrestOfForeigners) {
+                        if (array_filter($input_arrestof_foreigners)) $result->arrestOfForeigners->update($input_arrestof_foreigners);
+                        else $result->arrestOfForeigners()->delete();
+                    } else {
+                        if (array_filter($input_arrestof_foreigners)) {
+                            $input_arrestof_foreigners['incident_record_id'] = $result->id;
+                            ArrestOfForeignerIncidence::create($input_arrestof_foreigners);
+                        }
+                    }         
                 }
                 //Criminal Gang 
                 if ($result->special_check == 'criminal_gang') {
                     $input_criminal_gang = $request->only(['c_gang_name', 'cr_no_of_arrest', 'c_gang_incidences']);
-                    $updateRecord = $result->criminalGang();
-                    $updateRecord->update($input_criminal_gang);
-                    $updateRecord->touch();
+                    if ($result->criminalGang) {
+                        if (array_filter($input_criminal_gang)) $result->criminalGang->update($input_criminal_gang);
+                        else $result->criminalGang()->delete();
+                    } else {
+                        if (array_filter($input_criminal_gang)) {
+                            $input_criminal_gang['incident_record_id'] = $result->id;
+                            CriminalGangIncidence::create($input_criminal_gang);
+                        }
+                    }  
                 }
                 //Police Incidences 
                 if ($result->special_check == 'police_officers') {
                     $result->policeofficers()->delete();
                     $result->policeofficers()->createMany($input['policeofficer']);
                 }
-                //Criminal Gang 
+                // School Incidence
                 if ($result->special_check == 'school') {
                     $input_school = $request->only(['s_school_name', 'nature_of_school_unrest_id', 's_reason', 's_cases_reported', 's_student_injured', 's_student_dead', 's_student_non_injured', 's_student_non_dead', 's_student_arrested', 's_student_prosecuted', 's_other_arrest', 's_other_prosecuted', 's_sp_destroyed', 's_sp_value']);
-                    $updateRecord = $result->school();
-                    $updateRecord->update($input_school);
-                    $updateRecord->touch();
+                    if ($result->school) {
+                        if (array_filter($input_school)) $result->school->update($input_school);
+                        else $result->school()->delete();
+                    } else {
+                        if (array_filter($input_school)) {
+                            $input_school['incident_record_id'] = $result->id;
+                            SchoolIncidence::create($input_school);
+                        }
+                    }  
                 }
                 //Illicit Brew 
                 if ($result->special_check == 'illicitbrew') {
@@ -477,16 +512,28 @@ class DailyIncidenceController extends Controller
                 //Terrorism 
                 if ($result->special_check == 'terrorism') {
                     $input_terrorism = $request->only(['place_of_incidence', 'mode_of_attack', 'tk_officer', 'tk_reservist', 'tk_civilian', 'tk_suspect', 'ti_officer', 'ti_reservist', 'ti_civilian', 'ti_suspect', 'tkd_officer', 'tkd_reservist', 'tkd_civilian', 'tkd_suspect', 'ta_officer', 'ta_reservist', 'ta_civilian', 'ta_suspect']);
-                    $updateRecord = $result->terrorism();
-                    $updateRecord->update($input_terrorism);
-                    $updateRecord->touch();
+                    if ($result->terrorism) {
+                        if (array_filter($input_terrorism)) $result->terrorism->update($input_terrorism);
+                        else $result->terrorism()->delete();
+                    } else {
+                        if (array_filter($input_terrorism)) {
+                            $input_terrorism['incident_record_id'] = $result->id;
+                            TerrorismIncidence::create($input_terrorism);
+                        }
+                    }  
                 }
-                //Boarder 
+                //Border 
                 if ($result->special_check == 'boarder') {
                     $input_boarder = $request->only(['s_camel', 's_cattle', 's_goats', 'r_camel', 'r_cattle', 'r_goats', 'o_killed', 'c_killed', 'o_injured', 'c_injured', 'r_killed', 'r_arrested']);
-                    $updateRecord = $result->boarder();
-                    $updateRecord->update($input_boarder);
-                    $updateRecord->touch();
+                    if ($result->boarder) {
+                        if (array_filter($input_boarder)) $result->boarder->update($input_boarder);
+                        else $result->boarder()->delete();
+                    } else {
+                        if (array_filter($input_boarder)) {
+                            $input_boarder['incident_record_id'] = $result->id;
+                            BoardermIncidence::create($input_boarder);
+                        }
+                    }  
                 }
                 //Contraband 
                 if ($result->special_check == 'contraband') {
@@ -497,24 +544,42 @@ class DailyIncidenceController extends Controller
                 }
                 //Cattle Russtling 
                 if ($result->special_check == 'cattle_rustling') {
-                    $input_cattlerustlin = $request->only(['cr_killed', 'cr_injured', 'cr_arrested', 'cs_cattle', 'cs_goats', 'cs_sheep', 'cs_camel', 'cs_others', 'cr_cattle', 'cr_goats', 'cr_sheep', 'cr_camel', 'cr_others']);
-                    $updateRecord = $result->cattleRustling();
-                    $updateRecord->update($input_cattlerustlin);
-                    $updateRecord->touch();
+                    $input_cattlerustling = $request->only(['cr_killed', 'cr_injured', 'cr_arrested', 'cs_cattle', 'cs_goats', 'cs_sheep', 'cs_camel', 'cs_others', 'cr_cattle', 'cr_goats', 'cr_sheep', 'cr_camel', 'cr_others']);
+                    if ($result->cattleRustling) {
+                        if (array_filter($input_cattlerustling)) $result->cattleRustling->update($input_cattlerustling);
+                        else $result->cattleRustling()->delete();
+                    } else {
+                        if (array_filter($input_cattlerustling)) {
+                            $input_cattlerustling['incident_record_id'] = $result->id;
+                            CattleRustlingIncidence::create($input_cattlerustling);
+                        }
+                    }  
                 }
                 //Ethnic Clashes
                 if ($result->special_check == 'ethnic_clashes') {
                     $input_ethnicclashes = $request->only(['tribes_involved', 'e_killed', 'e_injured', 'e_arrested', 'e_reason']);
-                    $updateRecord = $result->ethicalClashes();
-                    $updateRecord->update($input_ethnicclashes);
-                    $updateRecord->touch();
+                    if ($result->ethicalClashes) {
+                        if (array_filter($input_ethnicclashes)) $result->ethicalClashes->update($input_ethnicclashes);
+                        else $result->ethicalClashes()->delete();
+                    } else {
+                        if (array_filter($input_ethnicclashes)) {
+                            $input_ethnicclashes['incident_record_id'] = $result->id;
+                            EthnicClashesIncidence::create($input_ethnicclashes);
+                        }
+                    } 
                 }
                 //Stock Theft
                 if ($result->special_check == 'stock_theft') {
                     $input_stocktheft = $request->only(['stp_killed', 'stp_injured', 'stp_arrested', 'stp_cattle', 'stp_goats', 'stp_sheep', 'stp_camel', 'stp_others', 'str_cattle', 'str_goats', 'str_sheep', 'str_camel', 'str_others']);
-                    $updateRecord = $result->stockTheft();
-                    $updateRecord->update($input_stocktheft);
-                    $updateRecord->touch();
+                    if ($result->stockTheft) {
+                        if (array_filter($input_stocktheft)) $result->stockTheft->update($input_stocktheft);
+                        else $result->stockTheft()->delete();
+                    } else {
+                        if (array_filter($input_stocktheft)) {
+                            $input_stocktheft['incident_record_id'] = $result->id;
+                            StockTheftIncidence::create($input_stocktheft);
+                        }
+                    } 
                 }
                 //Alien 
                 if ($result->special_check == 'alien') {
@@ -533,13 +598,29 @@ class DailyIncidenceController extends Controller
                 if ($result->special_check == 'wildlife') {
                     $wildlife_input = $request->only(['date_commited','elephant','rhino','giraffe','other','injured','fatal']);
                     $wildlife_input['date_commited'] = date_for_database($wildlife_input['date_commited']);
-                    $result->wildlife->update($wildlife_input);
+                    if ($result->wildlife) {
+                        if (array_filter($wildlife_input)) $result->wildlife->update($wildlife_input);
+                        else $result->wildlife()->delete();
+                    } else {
+                        if (array_filter($wildlife_input)) {
+                            $wildlife_input['incident_record_id'] = $result->id;
+                            WildlifeIncidence::create($wildlife_input);
+                        }
+                    } 
                 }
                 //Firearm
                 if ($result->special_check == 'firearm') {
                     $fill_params = ['incident_record_id' => $result->id, 'county_id' => $result->county_id];
                     $magazine_expl_input = $request->only(['magazine','explosive']);
-                    $result->firearm_magazine_explosive->update($magazine_expl_input);
+                    if ($result->firearm_magazine_explosive) {
+                        if (array_filter($magazine_expl_input)) $result->firearm_magazine_explosive->update($magazine_expl_input);
+                        else $result->firearm_magazine_explosive()->delete();
+                    } else {
+                        if (array_filter($magazine_expl_input)) {
+                            $magazine_expl_input['incident_record_id'] = $result->id;
+                            FirearmMagazineExplosive::create($magazine_expl_input);
+                        }
+                    } 
 
                     $firearms_data = $request->only('firearm_id', 'firearm_recovered', 'firearm_surrendered', 'serial_no');
                     $firearms_data = databaseArray($firearms_data);
