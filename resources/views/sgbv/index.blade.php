@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'SPECIAL-REPORT')
+@section('title', 'SGBV-REPORT')
 <style>
 .hide{
 	display: none;

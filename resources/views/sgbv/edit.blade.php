@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'SGBV-Incident')
+@section('title', 'IMPORT SGBV')
 
 @section('content')
     <!-- BEGIN: Content-->

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Import-S')
+@section('title', 'IMPORT SGBV')
 <style>
   .hide {
     display: none;
