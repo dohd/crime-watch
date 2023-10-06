@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div  class="alien-repeater">
                         <div data-repeater-list="alien">
-                            @if ($alien == 1)
+                            @if ($alien == 1 && $incidentrecord->aliens->count())
                                 @foreach ($incidentrecord->aliens as $alien )
                                     <div data-repeater-item>
                                         <div class="row d-flex align-items-end">
