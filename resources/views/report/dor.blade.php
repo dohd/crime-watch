@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Settings-Station')
+@section('title', 'DOR REPORT')
 <style>
 .hide{
 	display: none;
@@ -521,7 +521,7 @@ $(document).on('click', '.edit-station', function() {
     $("#report_number").change(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 }
             });
             console.log($(this).val());

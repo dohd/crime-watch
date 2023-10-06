@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'DCIR-REPORT')
+@section('title', 'DCIR REPORT')
 <style>
 .hide{
 	display: none;
@@ -42,7 +42,7 @@
                 </div>
             </section>
             <!-- users list ends -->
-            <div id="load_dor"></div>
+            <div id="load_dcir"></div>
 
         </div>
     </div>
@@ -521,10 +521,10 @@ $(document).on('click', '.edit-station', function() {
     $("#report_number").change(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 }
             });
-            console.log($(this).val());
+            
             $.ajax({
                 url: '{{ route('getDorReport') }}',
                 type: 'post',
@@ -534,7 +534,7 @@ $(document).on('click', '.edit-station', function() {
                   report_number: $(this).val(),
                 },
                 success: function(response) {
-                    $('#load_dor').html(response);
+                    $('#load_dcir').html(response);
                   
                 }
             });

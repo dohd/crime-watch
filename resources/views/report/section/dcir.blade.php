@@ -1,5 +1,4 @@
 <section id="basic-input">
-
     <div class="card bg-primary text-white">
         <div class="card-header">
             <h4 class="card-title text-white">
