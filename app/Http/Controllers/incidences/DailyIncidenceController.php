@@ -383,7 +383,7 @@ class DailyIncidenceController extends Controller
             //Begin DB
             DB::beginTransaction();
 
-            $input = $request->only(['incident_no', 'date_captured', 'incident_ref', 'charge_no', 'incident_title', 'date_commited', 'date_reported', 'time_commited', 'time_reported', 'case_position', 'motive', 'description', 'addincident', 'gangfirearm', 'special_check', 'crime_source_id', 'incident_file_id', 'station_id', 'region_id', 'county_id', 'division_id', 'c_no_of_arrest']);
+            $input = $request->only(['report_type', 'incident_no', 'date_captured', 'incident_ref', 'charge_no', 'incident_title', 'date_commited', 'date_reported', 'time_commited', 'time_reported', 'case_position', 'motive', 'description', 'addincident', 'gangfirearm', 'special_check', 'crime_source_id', 'incident_file_id', 'station_id', 'region_id', 'county_id', 'division_id', 'c_no_of_arrest']);
             foreach ($input as $key => $value) {
                 if (!$value) continue;
                 if (in_array($key, ['date_commited', 'date_reported', 'date_captured'])) {
