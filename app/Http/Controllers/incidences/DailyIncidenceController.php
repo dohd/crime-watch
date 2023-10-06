@@ -53,20 +53,19 @@ class DailyIncidenceController extends Controller
             $data = IncidentRecord::orderBy('created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->addColumn('filename', function ($data) {
-                    return  $data->incidentFile->name;
+                    return  @$data->incidentFile->name;
+                })
+                ->addColumn('region', function ($data) {
+                    return  @$data->region->name;
                 })
                 ->addColumn('county_name', function ($data) {
-                    return  $data->county->name;
+                    return  @$data->county->name;
                 })
                 ->addColumn('division_name', function ($data) {
-                    return  $data->idivision->name;
+                    return  @$data->idivision->name;
                 })
                 ->addColumn('category', function ($data) {
-                    $category = '';
-                    if (!empty($data->special_check)) {
-                        $category = $data->special_check;
-                    }
-                    return  $category;
+                    return  $data->special_check ?: '';
                 })
                 ->addColumn('date_commited', function ($data) {
                     return  dateFormat($data->date_commited);
