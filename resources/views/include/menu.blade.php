@@ -51,7 +51,7 @@
               
                 </ul>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="User">Traffic Incidences</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="User">Traffic Statistics</span></a>
                 <ul class="menu-content">
                     <li class="{{ ($segment1 == 'traffic' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('traffic.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Traffic</span></a>
                     </li>
@@ -60,7 +60,7 @@
               
                 </ul>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='battery-charging'></i><span class="menu-title text-truncate" data-i18n="User">Drug Incidences</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='battery-charging'></i><span class="menu-title text-truncate" data-i18n="User">Drug Statistics</span></a>
                 <ul class="menu-content">
                     <li class="{{ ($segment1 == 'drug' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('drug.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Drug</span></a>
                     </li>
@@ -69,7 +69,7 @@
               
                 </ul>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='user-x'></i><span class="menu-title text-truncate" data-i18n="User">SGVB Incidences</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='user-x'></i><span class="menu-title text-truncate" data-i18n="User">SGVB Statistics</span></a>
                 <ul class="menu-content">
                     <li class="{{ ($segment1 == 'sgbv' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('sgbv.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create SGVB</span></a>
                     </li>
@@ -81,7 +81,7 @@
               
                 </ul>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='sunrise'></i><span class="menu-title text-truncate" data-i18n="User">Wildlife Incidences</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='sunrise'></i><span class="menu-title text-truncate" data-i18n="User">Wildlife Statistics</span></a>
                 <ul class="menu-content">
                     <li class="{{ ($segment1 == 'wildlife' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('wildlife.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Wildlife</span></a>
                     </li>
@@ -90,7 +90,8 @@
               
                 </ul>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='sunrise'></i><span class="menu-title text-truncate" data-i18n="User">Firearm Incidences</span></a>
+
+            {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='sunrise'></i><span class="menu-title text-truncate" data-i18n="User">Firearm Incidences</span></a>
                 <ul class="menu-content">
                     <li class="{{ ($segment1 == 'firearm' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('firearm.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Firearm</span></a>
                     </li>
@@ -98,14 +99,14 @@
                     </li>
               
                 </ul>
-            </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='tool'></i><span class="menu-title text-truncate" data-i18n="User">Regional  Incidences</span></a>
+            </li> --}}
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='tool'></i><span class="menu-title text-truncate" data-i18n="User">Regional Crime</span></a>
                 <ul class="menu-content">
-                    <li class="{{ ($segment1 == 'regionalincidence' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('regionalincidence.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Incident</span></a>
+                    <li class="{{ ($segment1 == 'regionalincidence' &&  $segment2 == 'create')  ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{route('regionalincidence.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create Crime</span></a>
                     </li>
-                    <li class="{{ ($segment1 == 'regionalincidence' &&  $segment2 == '') ||($segment1 == 'regionalincidence' &&  $segment3 == 'edit') ? 'active' : '' }}" ><a class="d-flex align-items-center" href="{{route('regionalincidence.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Manage Incident </span></a>
+                    <li class="{{ ($segment1 == 'regionalincidence' &&  $segment2 == '') ||($segment1 == 'regionalincidence' &&  $segment3 == 'edit') ? 'active' : '' }}" ><a class="d-flex align-items-center" href="{{route('regionalincidence.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Manage Crime </span></a>
                     </li>
-              
                 </ul>
             </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="User">Reports</span></a>
