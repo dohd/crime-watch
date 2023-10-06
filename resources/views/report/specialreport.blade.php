@@ -35,14 +35,15 @@
                             @endphp
                             <div class="card-body">
                                 {!! Form::open(['route' => 'special-report', 'method' => 'GET', 'class' => ' modal-content pt-0', 'id' => 'search-report']) !!}
-                             
                                 <div class="row">
-                                  
-                                   
                                         <div class="col-xl-3 col-md-6 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="report_number">Report Type:</label>
-                                                {!! Form::select('special_check', ['gambling'=>'Gambling','mob_injustice'=>'Mob Injustice'], $special_check_input, [
+                                                {!! Form::select(
+                                                  'special_check', 
+                                                  ['gambling'=>'Gambling','mob_injustice'=>'Mob Injustice', 'money_matters' => 'Money Matters', 'arrest_of_foreigners' => 'Arreset of Foreigners', 'Criminal Gang' => 'Criminal Gang', 'police_officers' => 'Police Officers', 'school' => 'School', 'illicitbrew' => 'Illicit Brew', 'terrorism' => 'Terrorism', 'boarder' => 'Boarder', 'contraband' => 'Contraband', 'cattle_rustling' => 'Cattle Rustling', 'ethnic_clashes' => 'Ethnic Clashes', 'stock_theft' => 'Stock Theft', 'alien' => 'Alien', 'kidnapping' => 'Kidnapping', 'wildlife' => 'Wildlife', 'firearm' => 'Firearm', 'drugs' => 'Drugs'], 
+                                                  $special_check_input, 
+                                                  [
                                                     'placeholder' => '-- Select --',
                                                     'class' => 'select2 form-control',
                                                     'id' => 'special_report',
@@ -158,7 +159,6 @@
    <script src="{{ asset('app-assets/vendors/js/extensions/toastr.min.js') }}"></script>
    <script src="{{ asset('app-assets/vendors/js/moment/min/moment.min.js') }}"></script>
    <script src="{{ asset('app-assets/vendors/js/daterangepicker/daterangepicker.js') }}"></script>
-
    <!-- END: Page Vendor JS-->
 <!-- BEGIN: Page JS-->
 
