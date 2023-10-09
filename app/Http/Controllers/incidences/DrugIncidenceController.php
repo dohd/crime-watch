@@ -62,82 +62,51 @@ class DrugIncidenceController extends Controller
      */
     public function store(Request $request)
     {
-        if (request()->ajax()) {
-            $input = $request->except(['_token']);
-
-            $validator = Validator::make($request->all(), [
-                'date_commited' => 'required',
-          
-            
-            ]);
-
-            $noerrors = true;
-            if ($validator->fails()) {
-                $output = [
-                    'success' => false,
-                    'msg' => "Capture all fields!!",
-                ];
-                $noerrors = false;
-            }
-
-          
-           // dd( $input);
-            $input['date_commited']=date_for_database($input['date_commited']);
-       
-            $checkrecord=DrugIncidence::where('date_commited',$input['date_commited'])->exists();
-            if($checkrecord){
-                $output = [
-                    'success' => false,
-                    'msg' => "Record for this day is already captured!!",
-                ];
-                $noerrors = false;
-            }
-
-            if ($noerrors) {
-                try {
-                    //Begin DB  
-                    DB::beginTransaction();
-                    $input['user_id']=auth()->user()->id;
-                    $result = DrugIncidence::create($input);
-                    $master=[];
-                    foreach($input['drugs'] as $key=>$val){
-                        $master[]=array(
-                            'county_id'=>$val['county_id'],
-                            'incident_file_id'=>$val['incident_file_id'],
-                            'sex'=>$val['sex'],
-                            'age'=>$val['age'],
-                            'nationality'=>$val['nationality'],
-                            'case_position'=>$val['case_position'],
-                            'drug_type_id'=>$val['drug_type_id'],
-                            'drug_packaging_id'=>$val['drug_packaging_id'],
-                            'qty'=>$val['qty'],
-                        );
-                        
+        if (!request()->ajax()) return redirect()->back();
         
-                    }
-                    $result->drugIncidenceItems()->createMany($master);
-                   
+        $validator = Validator::make($request->all(), [
+            'date_commited' => 'required',        
+        ]);
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'msg' => "Capture all fields!!",
+            ];
+        }
+        
+        $input = $request->except(['_token']);
+        $input['date_commited'] = date_for_database($input['date_commited']);
+        $exists = DrugIncidence::where('date_commited', $input['date_commited'])->exists();
+        if($exists){
+            return [
+                'success' => false,
+                'msg' => "Record for this day is already captured!!",
+            ];
+        }
 
-                    DB::commit();
-                    $output = [
-                        'success' => true,
-                        'msg' => "Record Saved Successfully",
-                    ];
+        try {
+            //Begin DB  
+            DB::beginTransaction();
+            $input['user_id'] = auth()->user()->id;
+            $result = DrugIncidence::create($input);
+            $drug_input = array_map(fn($v) => array_filter($v), $request->drugs);
+            $result->drugIncidenceItems()->createMany($drug_input);
+           
+            DB::commit();
+            $output = [
+                'success' => true,
+                'msg' => "Record Saved Successfully",
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+            $output = [
+                'success' => false,
+                'msg' => $e->getMessage(),
+            ];
+        }
 
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
-                    $output = [
-                        'success' => false,
-                        'msg' => $e->getMessage(),
-                    ];
-                }
-
-            }
-          
         return $output;
-      
-       }
     }
 
     /**
@@ -179,78 +148,48 @@ class DrugIncidenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (request()->ajax()) {
-            $input_main = $request->only(['date_commited']);
+        if (!request()->ajax()) return redirect()->back();
 
-            $validator = Validator::make($request->all(), [
-                'date_commited' => 'required',
-          
+        $input_main = $request->only(['date_commited']);
+        $validator = Validator::make($request->all(), [
+            'date_commited' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+           return [
+                'success' => false,
+                'msg' => "Capture all fields!!",
+            ];
+        }
+
+        $input_main['date_commited']=date_for_database($input_main['date_commited']);
+        try {
+            //Begin DB  
+            DB::beginTransaction();
+            $input['user_id'] = auth()->user()->id;
+            $result = DrugIncidence::find($id);
+            $result->update($input_main);
+
+            $result->drugIncidenceItems()->delete();
+            $drug_input = array_map(fn($v) => array_filter($v), $request->drugs);
+            $result->drugIncidenceItems()->createMany($drug_input);
             
-            ]);
+            DB::commit();
+            $output = [
+                'success' => true,
+                'msg' => "Record Saved Successfully",
+            ];
 
-            $noerrors = true;
-            if ($validator->fails()) {
-                $output = [
-                    'success' => false,
-                    'msg' => "Capture all fields!!",
-                ];
-                $noerrors = false;
-            }
-
-          
-           // dd( $input);
-            $input_main['date_commited']=date_for_database($input_main['date_commited']);
-
-            if ($noerrors) {
-                try {
-                    //Begin DB  
-                    DB::beginTransaction();
-                    $input['user_id']=auth()->user()->id;
-                    $result = DrugIncidence::find($id);
-                    $result->update($input_main);
-                    $result->touch();
-
-                    $master=[];
-                    $input = $request->except(['_token']);
-                    $result->drugIncidenceItems()->delete();
-                    foreach($input['drugs'] as $key=>$val){
-                        $master[]=array(
-                            'county_id'=>$val['county_id'],
-                            'incident_file_id'=>$val['incident_file_id'],
-                            'sex'=>$val['sex'],
-                            'age'=>$val['age'],
-                            'nationality'=>$val['nationality'],
-                            'case_position'=>$val['case_position'],
-                            'drug_type_id'=>$val['drug_type_id'],
-                            'drug_packaging_id'=>$val['drug_packaging_id'],
-                            'qty'=>$val['qty'],
-                        );
-                        
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+            $output = [
+                'success' => false,
+                'msg' => $e->getMessage(),
+            ];
+        }
         
-                    }
-                    $result->drugIncidenceItems()->createMany($master);
-                   
-
-                    DB::commit();
-                    $output = [
-                        'success' => true,
-                        'msg' => "Record Saved Successfully",
-                    ];
-
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
-                    $output = [
-                        'success' => false,
-                        'msg' => $e->getMessage(),
-                    ];
-                }
-
-            }
-          
         return $output;
-      
-       }
     }
 
     /**
