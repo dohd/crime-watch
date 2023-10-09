@@ -464,7 +464,7 @@
                                         'id' => 'kidnapping',
                                         'data-target' => 'kidnapping-input',
                                     ]) !!}
-                                    <label class="form-check-label" for="kidnapping"> Kidnapping</label>
+                                    <label class="form-check-label" for="kidnapping"> Kidnapping/Abduction</label>
                                 </div>
                             </div>
                         </div>

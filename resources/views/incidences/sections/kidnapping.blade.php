@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="card shadow-none bg-transparent border-primary">
                 <div class="card-header">
-                    <h4 class="card-title">KIDNAPPING</h4>
+                    <h4 class="card-title">KIDNAPPING / ABDUCTION</h4>
                 </div>
                 <div class="card-body">     
                     <div class="row">
