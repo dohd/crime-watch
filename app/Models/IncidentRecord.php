@@ -125,6 +125,10 @@ class IncidentRecord extends Model
     {
         return $this->hasOne(MobInjusticeIncidence::class);
     }
+    public function mobInjustices()
+    {
+        return $this->hasMany(MobInjusticeIncidence::class);
+    }
     public function moneyMatter()
     {
         return $this->hasOne(MoneyMatterIncidence::class);

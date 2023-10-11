@@ -188,7 +188,11 @@ class DailyIncidenceController extends Controller
                 }
                 //Mobinjustice
                 if ($result->special_check == 'mob_injustice') {
-                    MobInjusticeIncidence::create($input);
+                    $mobinjustice_input = $request->mobinjustice;
+                    foreach ($mobinjustice_input as $key => $value) {
+                        $value['incident_record_id'] = $result->id;
+                        MobInjusticeIncidence::create($value);
+                    }
                 }
                 //Money Matters
                 if ($result->special_check == 'money_matters') {
@@ -433,15 +437,12 @@ class DailyIncidenceController extends Controller
                 }
                 //Mobinjustice
                 if ($result->special_check == 'mob_injustice') {
-                    $input_mobinjustice = $request->only(['suspect', 'age', 'mob_fetal', 'status']);
-                    if ($result->mobInjustice) {
-                        if (array_filter($input_mobinjustice)) $result->mobInjustice->update($input_mobinjustice);
-                        else $result->mobInjustice()->delete();
-                    } else {
-                        if (array_filter($input_mobinjustice)) {
-                            $input_mobinjustice['incident_record_id'] = $result->id;
-                            MobInjusticeIncidence::create($input_mobinjustice);
-                        }
+                    $mobinjustice_input = $request->mobinjustice;
+                    // dd($mobinjustice_input);
+                    $result->mobInjustices()->delete();
+                    foreach ($mobinjustice_input as $key => $value) {
+                        $value['incident_record_id'] = $result->id;
+                        MobInjusticeIncidence::create($value);
                     }
                 }
                 //Money Matters

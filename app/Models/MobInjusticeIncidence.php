@@ -11,10 +11,8 @@ class MobInjusticeIncidence extends Model
     protected $fillable = [
         'suspect', 
         'age',
-        'mob_fetal',
+        'offense',
         'status', 
-        'incident_record_id',
-        
-      
+        'incident_record_id',      
     ];
 }

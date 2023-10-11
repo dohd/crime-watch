@@ -572,6 +572,21 @@
             });
         });
 
+        // mobinjustice section repeater
+        $('.mobinjustice-repeater, .mobinjustice-default').repeater({
+            show: function() {
+                $(this).slideDown();
+                $(this).find('.select2').select2();
+                // Feather Icons
+                if (feather) feather.replace({width: 14,height: 14});
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            }
+        });
+
         // alien section repeater
         $('.alien-repeater, .alien-default').repeater({
             show: function() {
