@@ -189,8 +189,17 @@
                 e.preventDefault();
                 var isValid = newUserForm.valid();
                 if (isValid) {
-                    // filter out empty fields
-                    $('input,select').filter(function() { return $(this).val() == ''; }).prop('disabled', true);
+                    // filter empty fields
+                    $('input, select').filter(function() { 
+                        // exclude firearm and ammunition
+                        if ($('#firearm').prop('checked')) {
+                            id = $(this).attr('id') || '';
+                            if (id.includes('firearm_')) return false;
+                            if (id.includes('serial_')) return false;
+                            if (id.includes('ammu_')) return false;
+                        }
+                        return $(this).val() == ''; 
+                    }).prop('disabled', true);
 
                     var data = $(this).serialize();
                     $("#spinner").show();
