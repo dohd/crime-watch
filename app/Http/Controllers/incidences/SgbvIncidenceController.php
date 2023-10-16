@@ -345,7 +345,7 @@ class SgbvIncidenceController extends Controller
         // You can also set additional configurations for the PDF, such as page orientation, size, etc.
         // For example:
         // $pdf->setPaper('A4', 'landscape');
-        return $pdf->stream('sample.pdf');
+        return $pdf->stream('SGBV.pdf');
     }
 
     /**
@@ -405,6 +405,6 @@ class SgbvIncidenceController extends Controller
         // You can also set additional configurations for the PDF, such as page orientation, size, etc.
         // For example:
         // $pdf->setPaper('A4', 'landscape');
-        return $pdf->stream('sample.pdf');
+        return $pdf->stream('SGBV.pdf');
     }
 }
