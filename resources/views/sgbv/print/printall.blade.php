@@ -50,10 +50,8 @@ table tfoot td { background-color: #FFFF00;
     border-bottom: 0.1mm solid #0000ff;
 }
  table.print-friendly tr td, table.print-friendly tr th {
-       page-break-inside: auto !important;
-    }
-    
-
+    page-break-inside: auto !important;
+}
 </style>
 </head>
 <body>
@@ -103,15 +101,12 @@ Page {PAGENO} of {nb}
 
     <table class="items" width="100%" style="font-size: 13pt; font-weight: bold; border-collapse: collapse; " cellpadding="8">
         <thead>
-        
          <tr class="mycolor">
-                        
-                                                            <td  >OFFENCES</td>
-                                                            @foreach ($allcounties as $county)
-                                                            <td class="transform">{{ $county->name }}</td>
-                                                        @endforeach
-                                                        <td   class="transform">TOTAL</td>
-                                                           
+            <td  >OFFENCES</td>
+            @foreach ($allcounties as $county)
+                <td class="transform">{{ $county->name }}</td>
+            @endforeach
+            <td   class="transform">TOTAL</td>
          </tr>
         </thead>
         <tbody>
@@ -203,38 +198,10 @@ Page {PAGENO} of {nb}
                         <td colspan="2">TOTAL</td>
                 </tr>
                 <tr>
-                  
-                    
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                        
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                 
-                        <td>M</td>
-                        <td>F</td>
-                 
+                  @foreach (range(1,10) as $value)
+                    <td>M</td>
+                    <td>F</td>
+                  @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -426,7 +393,7 @@ Page {PAGENO} of {nb}
                     <td>{{ $total_f_sixty }}</td>
 
                     <td>{{ $grand_total_m }}</td>
-                    <td>{{ $total_f_sixty }}</td>
+                    <td>{{ $grand_total_f }}</td>
                 </tr>
             </tfoot>
         </table>
@@ -453,44 +420,14 @@ Page {PAGENO} of {nb}
                         <td colspan="2">TOTAL</td>
                 </tr>
                 <tr>
-                  
-                    
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                        
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                 
-                        <td>M</td>
-                        <td>F</td>
-                 
+                  @foreach (range(1,10) as $value)
+                    <td>M</td>
+                    <td>F</td>
+                  @endforeach
                 </tr>
             </thead>
             <tbody>
                 @foreach ($crimesources as $crimesource)
-
-
                 @php
                 $m_nine=0;
                 $f_nine=0;
@@ -676,7 +613,7 @@ Page {PAGENO} of {nb}
                     <td>{{ $total_f_sixty }}</td>
 
                     <td>{{ $grand_total_m }}</td>
-                    <td>{{ $total_f_sixty }}</td>
+                    <td>{{ $grand_total_f }}</td>
                 </tr>
             </tfoot>
         </table>

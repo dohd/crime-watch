@@ -103,82 +103,62 @@ Page {PAGENO} of {nb}
 
     <table class="items" width="100%" style="font-size: 13pt; font-weight: bold; border-collapse: collapse; " cellpadding="8">
         <thead>
-        
-         <tr class="mycolor">
-                        
-                                                            <td  >OFFENCES</td>
-                                                            @foreach ($allcounties as $county)
-                                                            <td class="transform">{{ $county->name }}</td>
-                                                        @endforeach
-                                                        <td   class="transform">TOTAL</td>
-                                                           
-         </tr>
+            <tr>
+                <th>OFFENCES</th>    
+                <th>ACCUSED</th>
+                <th>VICTIM</th>
+            </tr>
         </thead>
         <tbody>
+            @php
+                $accused_total = 0;
+                $victims_total = 0;
+            @endphp
             @foreach ($crimesources as $crimesource)
                 <tr  class="dotted">
                     <td style="font-size: 10pt; background-color:#99ccff">{{ $crimesource->name }}</td>
-                    @php
-                    $cval = 0;
-                      @endphp
-                @foreach ($sgbvs as $data)
-                    @if ($data->sgbvincidence->accused_victims=='Victim' && $data->incident_file_id == $crimesource->id)
-                        @php
-                            $cval+= $data->m_zero_to_nine+$data->f_zero_to_nine+$data->m_ten_to_fourteen+$data->f_ten_to_fourteen+$data->m_fifteen_to_seventeen+$data->f_fifteen_to_seventeen+$data->m_eighteen_to_nineteen+$data->f_eighteen_to_nineteen+$data->m_twenty_to_twentyfour+$data->f_twenty_to_twentyfour+$data->m_twenty_five_to_twentynine+$data->f_twenty_five_to_twentynine+$data->m_thirty_to_fortyfour+$data->f_thirty_to_fortyfour+$data->m_fortyfive_to_fiftynine+$data->f_fortyfive_to_fiftynine+$data->m_sixty_and_above+$data->f_sixty_and_above;
-                        @endphp
-                    @endif
-                @endforeach
-                    @foreach ($allcounties as $county)
-                    @php
-                        $val = 0;
-                    @endphp
-                    @foreach ($sgbvs as $data)
-                        @if ($data->sgbvincidence->accused_victims=='Victim' && $data->sgbvincidence->county_id == $county->id && $data->incident_file_id == $crimesource->id)
+                    <td style="background-color:#FFFF00">
+                        @foreach ($crimesource_accussed as $crimesrc_acc)
                             @php
-                                $val+= $data->m_zero_to_nine+$data->f_zero_to_nine+$data->m_ten_to_fourteen+$data->f_ten_to_fourteen+$data->m_fifteen_to_seventeen+$data->f_fifteen_to_seventeen+$data->m_eighteen_to_nineteen+$data->f_eighteen_to_nineteen+$data->m_twenty_to_twentyfour+$data->f_twenty_to_twentyfour+$data->m_twenty_five_to_twentynine+$data->f_twenty_five_to_twentynine+$data->m_thirty_to_fortyfour+$data->f_thirty_to_fortyfour+$data->m_fortyfive_to_fiftynine+$data->f_fortyfive_to_fiftynine+$data->m_sixty_and_above+$data->f_sixty_and_above;
+                                if ($crimesrc_acc->id == $crimesource->id) {
+                                    $total = 0;
+                                    foreach ($crimesrc_acc->SgbvReportAccusedVictims as $row) {
+                                        foreach ($sgbv_cols as $col) {
+                                            $total += $row[$col];
+                                            $accused_total += $row[$col];
+                                        }
+                                    }
+                                    echo $total;
+                                    break;
+                                };
                             @endphp
-                        @endif
-                    @endforeach
-                        <td>{{ $val }}</td>
-                    @endforeach
-                    <td  style="background-color:#FFFF00" class="c_total">{{ $cval }}</td>
+                        @endforeach
+                    </td>
+                    <td style="background-color:#FFFF00">
+                        @foreach ($crimesource_victims as $crimesrc_vict)
+                            @php
+                                if ($crimesrc_vict->id == $crimesource->id) {
+                                    $total = 0;
+                                    foreach ($crimesrc_vict->SgbvReportAccusedVictims as $row) {
+                                        foreach ($sgbv_cols as $col) {
+                                            $total += $row[$col];
+                                            $victims_total += $row[$col];
+                                        }
+                                    }
+                                    echo $total;
+                                    break;
+                                };
+                            @endphp
+                        @endforeach
+                    </td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr class="dotted">
                 <td>TOTAL</td>
-                @php
-                $gtval = 0;
-                @endphp
-                @foreach ($allcounties as $county)
-                @php
-                $val = 0;
-               @endphp
-               @foreach ($sgbvs as $data)
-                @if ($data->sgbvincidence->accused_victims=='Victim' && $data->sgbvincidence->county_id == $county->id)
-                    @php
-                        $val+= $data->m_zero_to_nine+$data->f_zero_to_nine+$data->m_ten_to_fourteen+$data->f_ten_to_fourteen+$data->m_fifteen_to_seventeen+$data->f_fifteen_to_seventeen+$data->m_eighteen_to_nineteen+$data->f_eighteen_to_nineteen+$data->m_twenty_to_twentyfour+$data->f_twenty_to_twentyfour+$data->m_twenty_five_to_twentynine+$data->f_twenty_five_to_twentynine+$data->m_thirty_to_fortyfour+$data->f_thirty_to_fortyfour+$data->m_fortyfive_to_fiftynine+$data->f_fortyfive_to_fiftynine+$data->m_sixty_and_above+$data->f_sixty_and_above;
-                    @endphp
-                @endif
-               @endforeach
-          
-                    <td id="rfooter_{{ $county->id }}" class="cs_total">{{ $val }}</td>
-                @endforeach
-                @php
-                $gtval = 0;
-                @endphp
-                @foreach ($sgbvs as $data)
-                @if ($data->sgbvincidence->accused_victims=='Victim')
-                    @php
-                        $gtval+= $data->m_zero_to_nine+$data->f_zero_to_nine+$data->m_ten_to_fourteen+$data->f_ten_to_fourteen+$data->m_fifteen_to_seventeen+$data->f_fifteen_to_seventeen+$data->m_eighteen_to_nineteen+$data->f_eighteen_to_nineteen+$data->m_twenty_to_twentyfour+$data->f_twenty_to_twentyfour+$data->m_twenty_five_to_twentynine+$data->f_twenty_five_to_twentynine+$data->m_thirty_to_fortyfour+$data->f_thirty_to_fortyfour+$data->m_fortyfive_to_fiftynine+$data->f_fortyfive_to_fiftynine+$data->m_sixty_and_above+$data->f_sixty_and_above;
-                    @endphp
-                    @endif
-              
-               @endforeach
-
-
-                <td class="cg_total">{{ $gtval }}</td>
+                <td class="cs_total">{{ $accused_total }}</td>
+                <td class="cg_total">{{ $victims_total }}</td>
             </tr>
         </tfoot>
     </table>
@@ -203,38 +183,10 @@ Page {PAGENO} of {nb}
                         <td colspan="2">TOTAL</td>
                 </tr>
                 <tr>
-                  
-                    
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                        
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                 
-                        <td>M</td>
-                        <td>F</td>
-                 
+                    @foreach (range(1,10) as $value)
+                    <td>M</td>
+                    <td>F</td>
+                  @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -426,7 +378,7 @@ Page {PAGENO} of {nb}
                     <td>{{ $total_f_sixty }}</td>
 
                     <td>{{ $grand_total_m }}</td>
-                    <td>{{ $total_f_sixty }}</td>
+                    <td>{{ $grand_total_f }}</td>
                 </tr>
             </tfoot>
         </table>
@@ -453,38 +405,10 @@ Page {PAGENO} of {nb}
                         <td colspan="2">TOTAL</td>
                 </tr>
                 <tr>
-                  
-                    
+                    @foreach (range(1,10) as $value)
                         <td>M</td>
                         <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                        
-                        <td>M</td>
-                        <td>F</td>
-
-                        <td>M</td>
-                        <td>F</td>
-                 
-                        <td>M</td>
-                        <td>F</td>
-                 
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -676,7 +600,7 @@ Page {PAGENO} of {nb}
                     <td>{{ $total_f_sixty }}</td>
 
                     <td>{{ $grand_total_m }}</td>
-                    <td>{{ $total_f_sixty }}</td>
+                    <td>{{ $grand_total_f }}</td>
                 </tr>
             </tfoot>
         </table>

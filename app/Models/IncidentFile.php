@@ -29,4 +29,9 @@ class IncidentFile extends Model
     {
         return $this->belongsTo(CrimeCategory::class,'crime_category_id','id');
     }
+
+    public function SgbvReportAccusedVictims()
+    {
+        return $this->hasMany(SgbvReportByAccusedAndVictim::class, 'incident_file_id');
+    }
 }

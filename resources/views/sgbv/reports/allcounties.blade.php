@@ -112,44 +112,14 @@
                                  <th colspan="2">TOTAL</th>
                         </tr>
                         <tr>
-                          
-                            
+                            @foreach (range(1,10) as $value)
                                 <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-                                
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-                         
-                                <th>M</th>
-                                <th>F</th>
-                         
+                                <th>F</th>                                
+                            @endforeach
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($crimesources as $crimesource)
-
-
                         @php
                         $m_nine=0;
                         $f_nine=0;
@@ -335,7 +305,7 @@
                             <td>{{ $total_f_sixty }}</td>
 
                             <td>{{ $grand_total_m }}</td>
-                            <td>{{ $total_f_sixty }}</td>
+                            <td>{{ $grand_total_f }}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -370,38 +340,10 @@
                                  <th colspan="2">TOTAL</th>
                         </tr>
                         <tr>
-                          
-                            
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-                                
-                                <th>M</th>
-                                <th>F</th>
-
-                                <th>M</th>
-                                <th>F</th>
-                         
-                                <th>M</th>
-                                <th>F</th>
-                         
+                          @foreach (range(1,10) as $value)
+                            <th>M</th>
+                            <th>F</th>                              
+                          @endforeach                            
                         </tr>
                     </thead>
                     <tbody>
@@ -462,12 +404,7 @@
                     }
                     //Totals
                     @endphp
-                     
                       @endforeach
-
-
-                    
-                      
                             <tr>
                                 <td>{{ $crimesource->name }}</td>
                               
@@ -593,7 +530,7 @@
                             <td>{{ $total_f_sixty }}</td>
 
                             <td>{{ $grand_total_m }}</td>
-                            <td>{{ $total_f_sixty }}</td>
+                            <td>{{ $grand_total_f }}</td>
                         </tr>
                     </tfoot>
                 </table>

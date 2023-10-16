@@ -12,6 +12,5 @@ class CrimeSource extends Model
     protected $fillable = [
         'name', 
         'uuid'
-      
     ];
 }

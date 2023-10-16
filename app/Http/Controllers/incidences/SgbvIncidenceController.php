@@ -27,41 +27,55 @@ class SgbvIncidenceController extends Controller
     public function index(Request $request)
     {
         $counties = County::all()->pluck('name', 'id');
-        if (!empty($request->input('date'))) {
-            $county_id = $request->input('county_id');
-            $daterange = $request->input('date');
-            $datearr = explode('-', $daterange);
-            $date_from = str_replace(' ', '', $datearr[0]);
-            $date_to = str_replace(' ', '', $datearr[1]);
+        if (!$request->input('date')) return view('sgbv.index', compact('counties'));
 
-            $carbonDate = Carbon::createFromFormat('d/m/Y', $date_from);
-            $datefrom = $carbonDate->format('Y-m-d');
-            $carbonDate = Carbon::createFromFormat('d/m/Y', $date_to);
-            $dateto = $carbonDate->format('Y-m-d');
-            $county_id = $request->input('county_id');
+        $county_id = $request->input('county_id');
+        $daterange = $request->input('date');
+        $datearr = explode('-', $daterange);
+        $date_from = str_replace(' ', '', $datearr[0]);
+        $date_to = str_replace(' ', '', $datearr[1]);
 
-            $q = SgbvReportByAccusedAndVictim::with(['sgbvincidence' => function ($q) use ($datefrom, $dateto, $county_id) {
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date_from);
+        $datefrom = $carbonDate->format('Y-m-d');
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date_to);
+        $dateto = $carbonDate->format('Y-m-d');
+        $county_id = $request->input('county_id');
+
+        $q = SgbvReportByAccusedAndVictim::with(['sgbvincidence' => function ($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereBetween('date_commited', [$datefrom, $dateto]);
+            $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
+        }])->whereHas('sgbvincidence', function ($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereBetween('date_commited', [$datefrom, $dateto]);
+            $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
+        });
+        $sgbvs = $q->get();
+
+        $allcounties = County::get();
+        if ($county_id) $allcounties = County::where('id', $county_id)->get();
+        $crimesources = IncidentFile::where('is_sgbv', '1')->get();
+        $county_name = County::where('id', $county_id)->value('name');
+
+        // sgvb totals by crimesource
+        $crimesource_accussed = IncidentFile::where('is_sgbv', '1')
+        ->with(['SgbvReportAccusedVictims' => function($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereHas('sgbvincidence', function ($q) use ($datefrom, $dateto, $county_id) {
+                $q->where('accused_victims', 'Accused');
                 $q->whereBetween('date_commited', [$datefrom, $dateto]);
-                $q->when($county_id > 0, function ($q) use ($county_id) {
-                    $q->where('county_id', '=', $county_id);
-                });
-            }])->whereHas('sgbvincidence', function ($query) use ($datefrom, $dateto, $county_id) {
-                $query->whereBetween('date_commited', [$datefrom, $dateto]);
-                $query->when($county_id > 0, function ($q) use ($county_id) {
-                    $q->where('county_id', '=', $county_id);
-                });
+                $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
             });
-            $sgbvs = $q->get();
-
-            $allcounties = County::get();
-            if ($county_id > 0) {
-                $allcounties = County::where('id', $county_id)->get();
-            }
-            $crimesources = IncidentFile::where('is_sgbv', '1')->get();
-            $county_name = County::where('id', $county_id)->value('name');
-            return view('sgbv.index', compact('county_name', 'allcounties', 'crimesources', 'sgbvs', 'county_id', 'daterange', 'datefrom', 'dateto', 'counties', 'date_from', 'date_to'));
-        }
-        return view('sgbv.index', compact('counties'));
+        }])->get();
+        $crimesource_victims = IncidentFile::where('is_sgbv', '1')
+        ->with(['SgbvReportAccusedVictims' => function($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereHas('sgbvincidence', function ($q) use ($datefrom, $dateto, $county_id) {
+                $q->where('accused_victims', 'Victim');
+                $q->whereBetween('date_commited', [$datefrom, $dateto]);
+                $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
+            });
+        }])->get();     
+        $sgbv_cols = DB::select('SHOW COLUMNS FROM sgbv_report_by_accused_and_victims');
+        $sgbv_cols = array_filter(array_map(fn($v) => $v->Field, $sgbv_cols), fn($v) => !in_array($v, ['id', 'type', 'incident_file_id', 'sgbv_incidence_id', 'created_at', 'updated_at']));
+        
+        return view('sgbv.index', compact('sgbv_cols', 'crimesource_victims', 'crimesource_accussed', 'county_name', 'allcounties', 'crimesources', 'sgbvs', 'county_id', 'daterange', 'datefrom', 'dateto', 'counties', 'date_from', 'date_to'));
     }
 
     /**
@@ -295,7 +309,7 @@ class SgbvIncidenceController extends Controller
     }
 
     /**
-     * 
+     * Print SGBV Report For All Counties
      */
     public function print_sgbv_report_all($daterange)
     {
@@ -335,7 +349,7 @@ class SgbvIncidenceController extends Controller
     }
 
     /**
-     * 
+     * Print SGBV Report By County
      */
     public function print_sgbv_report_by_county($county_id, $daterange)
     {
@@ -360,15 +374,30 @@ class SgbvIncidenceController extends Controller
         $crimesources = IncidentFile::where('is_sgbv', '1')->get();
         $county_name = County::where('id', $county_id)->value('name');
         $crimesources = IncidentFile::where('is_sgbv', '1')->get();
+
+        // sgvb totals by crimesource
+        $crimesource_accussed = IncidentFile::where('is_sgbv', '1')
+        ->with(['SgbvReportAccusedVictims' => function($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereHas('sgbvincidence', function ($q) use ($datefrom, $dateto, $county_id) {
+                $q->where('accused_victims', 'Accused');
+                $q->whereBetween('date_commited', [$datefrom, $dateto]);
+                $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
+            });
+        }])->get();
+        $crimesource_victims = IncidentFile::where('is_sgbv', '1')
+        ->with(['SgbvReportAccusedVictims' => function($q) use ($datefrom, $dateto, $county_id) {
+            $q->whereHas('sgbvincidence', function ($q) use ($datefrom, $dateto, $county_id) {
+                $q->where('accused_victims', 'Victim');
+                $q->whereBetween('date_commited', [$datefrom, $dateto]);
+                $q->when($county_id, fn($q) =>  $q->where('county_id', $county_id));
+            });
+        }])->get();     
+        $sgbv_cols = DB::select('SHOW COLUMNS FROM sgbv_report_by_accused_and_victims');
+        $sgbv_cols = array_filter(array_map(fn($v) => $v->Field, $sgbv_cols), fn($v) => !in_array($v, ['id', 'type', 'incident_file_id', 'sgbv_incidence_id', 'created_at', 'updated_at']));
+        
         // Get your data to be used in the PDF, e.g., from the database or any other source.
-        $data = [
-            'allcounties' =>  $allcounties,
-            'crimesources' => $crimesources,
-            'sgbvs' => $sgbvs,
-            'date' => $daterange,
-            'county_name' => $county_name,
-            'content' => 'This is the content of the PDF.',
-        ];
+        $data = compact('sgbv_cols', 'crimesource_victims', 'crimesource_accussed', 'allcounties', 'crimesources', 'sgbvs', 'county_name') + ['date' => $daterange, 'content' => 'This is the content of the PDF.'];
+        
         $pdf = PDF::loadView('sgbv.print.printbycounty', $data, [], [
             'orientation' => 'L',
             'title' => 'DOR REPORT',
