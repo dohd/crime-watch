@@ -36,13 +36,13 @@ class SpecialReportController extends Controller
             //Report Type Gambling
             if ($special_check == 'gambling') {
                 $counties = County::with(['incidences.gambling' => function ($q) use ($special_check, $datefrom, $dateto) {
-                    // Check the correct table name and column name for 'date_commited'
                     $q->whereHas('incidence', function ($q) use ($special_check, $datefrom, $dateto) {
-                        $q->whereBetween('date_captured', [$datefrom, $dateto]);
+                        $q->whereBetween('date_commited', [$datefrom, $dateto]);
                         $q->where('special_check', $special_check);
                     });
                 }])->get();
             }
+            
             return view('report.specialreport', compact('report_category', 'special_check', 'daterange', 'datefrom', 'dateto', 'counties', 'date_from', 'date_to'));
         } 
 
@@ -68,47 +68,80 @@ class SpecialReportController extends Controller
     /**
      * Print Special Report
      */
-    public function print_special_report($report_number, $is_dcir)
+    public function print_special_report(Request $request)
     {
-        $report_numbers = decrypt_data($report_number);
-        $is_dcir = decrypt_data($is_dcir);
+        $special_check = $request->input('special_check');
+        $daterange = $request->input('date');
+        $report_category = $request->input('report_category');
+        $datearr = explode('-', $daterange);
 
-        $counties = County::with([
-            'divisions' => function ($q) use ($report_numbers, $is_dcir) {
-                $q->whereHas('divincidences', function ($query) use ($report_numbers, $is_dcir) {
-                    $query->where('incident_no', $report_numbers);
-                    $query->where('report_type', 'Briefing Report');
-                    $query->where('is_dcir', $is_dcir);
-                });
-            },
-            'divisions.divincidences' => function ($q) use ($report_numbers, $is_dcir) {
-                $q->where('incident_no', $report_numbers);
-                $q->where('report_type', 'Briefing Report');
-                $q->where('is_dcir', $is_dcir);
-            },
-        ])->whereHas('incidences', function ($query) use ($report_numbers, $is_dcir) {
-            $query->where('incident_no', $report_numbers);
-            $query->where('report_type', 'Briefing Report');
-            $query->where('is_dcir', $is_dcir);
-        })->orderBy('code', 'desc')->get();
+        $date_from = str_replace(' ', '', $datearr[0]);
+        $date_to = str_replace(' ', '', $datearr[1]);
 
-        $date = IncidentRecord::where('incident_no', $report_numbers)->where('is_dcir', $is_dcir)->first();
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date_from);
+        $datefrom = $carbonDate->format('Y-m-d');
+
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date_to);
+        $dateto = $carbonDate->format('Y-m-d');
+
+        if ($report_category == 'statistics') {
+            //Report Type Gambling
+            if ($special_check == 'gambling') {
+                $counties = County::with(['incidences.gambling' => function ($q) use ($special_check, $datefrom, $dateto) {
+                    $q->whereHas('incidence', function ($q) use ($special_check, $datefrom, $dateto) {
+                        $q->whereBetween('date_commited', [$datefrom, $dateto]);
+                        $q->where('special_check', $special_check);
+                    });
+                }])->get();
+            }
+
+            // return view('report.specialreport', compact('report_category', 'special_check', 'daterange', 'datefrom', 'dateto', 'counties', 'date_from', 'date_to'));
+        } 
+
+        // Get your data to be used in the PDF, e.g., from the database or any other source.
+        // $data = ['date' => $dateto, 'content' => 'This is the content of the PDF.'];            
+        $date_range = [$datefrom, $dateto];
+        $data = compact('counties', 'date_range');
+        
+        $pdf = PDF::loadView('report.print.gambling', $data, [], ['title' => 'Gambling Statistics']);
+            
+        return $pdf->stream('sample.pdf');
+
+
+
+
+
+        // $report_numbers = decrypt_data($report_number);
+        // $is_dcir = decrypt_data($is_dcir);
+
+        // $counties = County::with([
+        //     'divisions' => function ($q) use ($report_numbers, $is_dcir) {
+        //         $q->whereHas('divincidences', function ($query) use ($report_numbers, $is_dcir) {
+        //             $query->where('incident_no', $report_numbers);
+        //             $query->where('report_type', 'Briefing Report');
+        //             $query->where('is_dcir', $is_dcir);
+        //         });
+        //     },
+        //     'divisions.divincidences' => function ($q) use ($report_numbers, $is_dcir) {
+        //         $q->where('incident_no', $report_numbers);
+        //         $q->where('report_type', 'Briefing Report');
+        //         $q->where('is_dcir', $is_dcir);
+        //     },
+        // ])->whereHas('incidences', function ($query) use ($report_numbers, $is_dcir) {
+        //     $query->where('incident_no', $report_numbers);
+        //     $query->where('report_type', 'Briefing Report');
+        //     $query->where('is_dcir', $is_dcir);
+        // })->orderBy('code', 'desc')->get();
+
+        // $date = IncidentRecord::where('incident_no', $report_numbers)->where('is_dcir', $is_dcir)->first();
 
         $from_date = dorDateFormat($date->created_at);
         $title = 'DAILY OPERATION REPORT';
-        if ($is_dcir == 1) {
-            $title = 'DAILY CRIME AND INCIDENCE REPORT';
-        }
-        //dd($counties);
+        if ($is_dcir == 1) $title = 'DAILY CRIME AND INCIDENCE REPORT';
 
         // Get your data to be used in the PDF, e.g., from the database or any other source.
-        $data = [
-            'title' =>  $title,
-            'counties' => $counties,
-            'report_numbers' => $report_numbers,
-            'from_date' => $from_date,
-            'content' => 'This is the content of the PDF.',
-        ];
+        $data = compact('title', 'counties', 'report_numbers', 'from_date', 'date') + ['content' => 'This is the content of the PDF.'];            
+        
         $pdf = PDF::loadView('report.print.dor', $data, [], [
             'title' => 'DOR REPORT',
         ]);
@@ -117,8 +150,5 @@ class SpecialReportController extends Controller
         // $pdf->setPaper('A4', 'landscape');
 
         return $pdf->stream('sample.pdf');
-
-        // return $pdf->download('sample.pdf');
-
     }
 }

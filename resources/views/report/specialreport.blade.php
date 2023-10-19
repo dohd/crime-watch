@@ -8,116 +8,104 @@
 
 @section('content')
 <!-- BEGIN: Content-->
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper container-xxl p-0">
-        <div class="content-header row">
-        </div>
-        <div class="content-body">
-            <!-- users list start -->
-            <section id="basic-input">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card shadow-none bg-transparent border-primary">
-                            <div class="card-header">
-                                <h4 class="card-title">SPECIAL REPORT</h4>
-                            </div>
-                            @php
-                            $special_check_input=null;
-                            $daterange_input=null;
-                            $report_category_input=null;
-                                if(isset($special_check) && isset($daterange) ){
-                                    $special_check_input=$special_check; 
-                                    $daterange_input=$daterange; 
-                                    $report_category_input=$report_category;
-                                }
+<div class="content-overlay"></div>
+<div class="header-navbar-shadow"></div>
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-header row"></div>
+  <div class="content-body">
+      <!-- users list start -->
+      <section id="basic-input">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-none bg-transparent border-primary">
+                    <div class="card-header">
+                        <h4 class="card-title">SPECIAL REPORT</h4>
+                    </div>
+                    @php
+                    $special_check_input=null;
+                    $daterange_input=null;
+                    $report_category_input=null;
+                        if(isset($special_check) && isset($daterange) ){
+                            $special_check_input=$special_check; 
+                            $daterange_input=$daterange; 
+                            $report_category_input=$report_category;
+                        }
 
-                            @endphp
-                            <div class="card-body">
-                                {!! Form::open(['route' => 'special-report', 'method' => 'GET', 'class' => ' modal-content pt-0', 'id' => 'search-report']) !!}
-                                <div class="row">
-                                        <div class="col-xl-3 col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="report_number">Report Type:</label>
-                                                {!! Form::select(
-                                                  'special_check', 
-                                                  ['gambling'=>'Gambling','mob_injustice'=>'Mob Injustice', 'money_matters' => 'Money Matters', 'arrest_of_foreigners' => 'Arreset of Foreigners', 'Criminal Gang' => 'Criminal Gang', 'police_officers' => 'Police Officers', 'school' => 'School', 'illicitbrew' => 'Illicit Brew', 'terrorism' => 'Terrorism', 'boarder' => 'Boarder', 'contraband' => 'Contraband', 'cattle_rustling' => 'Cattle Rustling', 'ethnic_clashes' => 'Ethnic Clashes', 'stock_theft' => 'Stock Theft', 'alien' => 'Alien', 'kidnapping' => 'Kidnapping', 'wildlife' => 'Wildlife', 'firearm' => 'Firearm', 'drugs' => 'Drugs'], 
-                                                  $special_check_input, 
-                                                  [
-                                                    'placeholder' => '-- Select --',
-                                                    'class' => 'select2 form-control',
-                                                    'id' => 'special_report',
-                                                    'required'=>'required'
-                                                ]) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="report_category">Report ategory:</label>
-                                                {!! Form::select('report_category', ['incidences'=>'Incidences','statistics'=>'Statistics'], $report_category_input, [
-                                                    'placeholder' => '-- Select --',
-                                                    'class' => 'select2 form-control',
-                                                    'id' => 'report_category',
-                                                    'required'=>'required'
-                                                ]) !!}
-                                            </div>
-                                        </div>
-
-                                    <div class="col-xl-4 col-md-6 col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="report_number">Date:</label>
-                                            {!! Form::text('date', $daterange_input, [
-                                                'class' => 'form-control shawCalRanges',
-                                                'id' => 'statistic_value ',
-                                                'required'=>'date'
-                                            ]) !!}
-
-
-                                        </div>
+                    @endphp
+                    <div class="card-body">
+                        {!! Form::open(['route' => 'special-report', 'method' => 'GET', 'class' => ' modal-content pt-0', 'id' => 'search-report']) !!}
+                        <div class="row">
+                                <div class="col-xl-3 col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="report_number">Report Type:</label>
+                                        {!! Form::select(
+                                          'special_check', 
+                                          ['gambling'=>'Gambling','mob_injustice'=>'Mob Injustice', 'money_matters' => 'Money Matters', 'arrest_of_foreigners' => 'Arreset of Foreigners', 'Criminal Gang' => 'Criminal Gang', 'police_officers' => 'Police Officers', 'school' => 'School', 'illicitbrew' => 'Illicit Brew', 'terrorism' => 'Terrorism', 'boarder' => 'Boarder', 'contraband' => 'Contraband', 'cattle_rustling' => 'Cattle Rustling', 'ethnic_clashes' => 'Ethnic Clashes', 'stock_theft' => 'Stock Theft', 'alien' => 'Alien', 'kidnapping' => 'Kidnapping', 'wildlife' => 'Wildlife', 'firearm' => 'Firearm', 'drugs' => 'Drugs'], 
+                                          $special_check_input, 
+                                          [
+                                            'placeholder' => '-- Select --',
+                                            'class' => 'select2 form-control',
+                                            'id' => 'special_report',
+                                            'required'=>'required'
+                                        ]) !!}
                                     </div>
-                                    <div class="col-xl-2 col-md-6 col-12">
-                                        <button type="submit" class="btn btn-icon btn-warning mt-2">
-                                            <i data-feather="search"></i>
-                                        </button>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="report_category">Report ategory:</label>
+                                        {!! Form::select('report_category', ['incidences'=>'Incidences','statistics'=>'Statistics'], $report_category_input, [
+                                            'placeholder' => '-- Select --',
+                                            'class' => 'select2 form-control',
+                                            'id' => 'report_category',
+                                            'required'=>'required'
+                                        ]) !!}
                                     </div>
                                 </div>
 
-                                {!! Form::close() !!}
+                            <div class="col-xl-4 col-md-6 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="report_number">Date:</label>
+                                    {!! Form::text('date', $daterange_input, [
+                                        'class' => 'form-control shawCalRanges',
+                                        'id' => 'statistic_value ',
+                                        'required'=>'date'
+                                    ]) !!}
+
+
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-6 col-12">
+                                <button type="submit" class="btn btn-icon btn-warning mt-2">
+                                    <i data-feather="search"></i>
+                                </button>
                             </div>
                         </div>
+
+                        {!! Form::close() !!}
                     </div>
                 </div>
-            </section>
-            <!-- users list ends -->
+            </div>
+        </div>
+      </section>
+      <!-- users list ends -->
           
 
 @if (isset($special_check) && isset($daterange) )
+  @if ($report_category=='incidences')
+    @include('report.section.statistics')
+  @else
 
-@if ($report_category=='incidences')
-
-@include('report.section.statistics')
-    
-@else
-
-@if ($special_check=='gambling')
-@include('report.section.gambling')
-    
-@endif
-    
+  @if ($special_check=='gambling')
+    @include('report.section.gambling')
+  @endif  
 @endif
 
-
-
-
-    
 @endif
-
-
-
-        </div>
-    </div>
+  </div>
+</div>
 <!-- END: Content-->
 @endsection
+
 @section('vendor-styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/forms/select/select2.min.css') }}">

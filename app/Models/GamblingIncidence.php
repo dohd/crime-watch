@@ -9,19 +9,17 @@ class GamblingIncidence extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'm_arrest_no', 
+        'm_arrest_no',
         'm_no',
         'c_arrest_no',
-        'c_no', 
+        'c_no',
         'p_arrest_no',
-        'p_no', 
+        'p_no',
         'incident_record_id',
-        
-      
     ];
 
-     public function incidence()
+    public function incidence()
     {
-        return $this->belongsTo(IncidentRecord::class,'incident_record_id');
+        return $this->belongsTo(IncidentRecord::class, 'incident_record_id');
     }
 }
