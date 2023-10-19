@@ -79,9 +79,11 @@ Route::get('dor-report', [DorDcirReportController::class, 'dor_report'])->name('
 Route::get('dcir-report', [DorDcirReportController::class, 'dcir_report'])->name('dcir-report');
 Route::post('getDorReport', [DorDcirReportController::class, 'get_dor_Report'])->name('getDorReport');
 Route::get('print-dcir-report/{report_numbers}/{is_dcir}', [DorDcirReportController::class, 'print_dcir_report'])->name('print-dcir-report');
-Route::get('special-report', [SpecialReportController::class, 'special_report'])->name('special-report');
 Route::post('loadincidentnumber', [DailyIncidenceController::class, 'load_incident_number'])->name('loadincidentnumber');
 Route::post('loadRegionDivision', [RegionalIncidencesController::class, 'load_region_division'])->name('loadRegionDivision');
+Route::get('special-report', [SpecialReportController::class, 'special_report'])->name('special-report');
+Route::get('print-special-report', [SpecialReportController::class, 'print_special_report'])->name('print-special-report');
+
 Route::resource('users', UsersController::class);
 Route::get('resetpassword/{id}', [UsersController::class, 'reset_password'])->name('resetpassword');
 Route::get('user-account', [UsersController::class, 'user_account'])->name('user-account');
